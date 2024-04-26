@@ -9,7 +9,7 @@ import { setWindowClass } from '@app/utils/helpers';
 import { Checkbox } from '@profabric/react-components';
 import * as Yup from 'yup';
 
-import { authLogin } from '@app/utils/oidc-providers';
+import { authLogin, authLoginT } from '@app/utils/oidc-providers';
 import { Form, InputGroup } from 'react-bootstrap';
 import { Button } from '@app/styles/common';
 
@@ -25,7 +25,7 @@ const Login = () => {
   const login = async (email: string, password: string) => {
     try {
       setAuthLoading(true);
-      const response = await authLogin(email, password);
+      const response = await authLoginT(email, password);
       dispatch(setAuthentication(response as any));
       toast.success('Login is succeed!');
       setAuthLoading(false);
