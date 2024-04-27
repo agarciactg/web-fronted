@@ -1,6 +1,8 @@
 import { UserManager, UserManagerSettings } from "oidc-client-ts";
 import { sleep } from "./helpers";
 import axios from "axios";
+import { apiKey, baseUrl } from "./apiConfig";
+import { User } from "./types";
 
 declare const FB: any;
 
@@ -75,34 +77,39 @@ export const authLogin = (email: string, password: string) => {
   });
 };
 
-export const authLoginT = async (email: string, password: string) => {
+export const authLoginT = async (
+  email: string,
+  password: string
+): Promise<User> => {
   try {
-    const apiKeyToken = "alGCYSYe.u0SH8Z8PAwtCOysVQQuMFwQo0YhBukkF";
+    const apiUrl: string = baseUrl + "auth/token/";
 
-    const response = await axios.post(
-      "http://localhost:8000/api/v1/auth/token/",
-      {
-        username: email,
-        password: password,
+    const postData = {
+      username: email,
+      password: password,
+    };
+
+    const headers = {
+      "X-Api-Key": apiKey,
+      "Content-Type": "application/json",
+    };
+
+    const response = await axios.post(apiUrl, postData, { headers });
+    const token: string = response.data.data.access;
+
+    localStorage.setItem("authentication", JSON.stringify(token));
+
+    const user = {
+      profile: {
+        email: email,
       },
-      {
-        headers: {
-          "X-Api-Key": apiKeyToken,
-        },
-      }
-    );
+    };
 
-    const { token } = response.data;
-
-    localStorage.setItem("authentication", JSON.stringify({ token }));
-
-    return { token };
+    return user;
   } catch (error) {
     return Promise.reject({ message: "Credenciales incorrectas!" });
   }
 };
-
-
 
 export const getAuthStatus = () => {
   return new Promise(async (res, rej) => {
