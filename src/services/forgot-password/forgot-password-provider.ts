@@ -16,12 +16,15 @@ export const forgotPasswordProvider = async (email: string): Promise<any> => {
     };
 
     const response = await axios.post(apiUrl, postData, { headers });
-    console.log("Response", response.data);
     toast.success("Correo Enviado con Exito!");
     return response.data;
   } catch (error) {
-    console.log("Error: ", error);
-    toast.error("Fallo al enviar el correo, intente denuevo.");
+    const { response }: any = error;
+
+    if (response.status) {
+      toast.error("No existe usuario con este Email.");
+    }
+
     return Promise.reject({ message: "error en el envio de email." });
   }
 };

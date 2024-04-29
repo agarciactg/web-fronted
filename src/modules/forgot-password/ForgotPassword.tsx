@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { setWindowClass } from '@app/utils/helpers';
@@ -7,8 +7,6 @@ import { useFormik } from 'formik';
 import { Form, InputGroup } from 'react-bootstrap';
 import { Button } from '@profabric/react-components';
 import { useState } from 'react';
-import axios from 'axios';
-import { apiKey, baseUrl } from '@app/utils/apiConfig';
 import { forgotPasswordProvider } from '@app/services/forgot-password/forgot-password-provider';
 
 const ForgotPassword = () => {
@@ -16,8 +14,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const [t] = useTranslation();
 
-  // conexion endpoint
-  const [error, setError]: any = useState(null);
+
   const [isLoading, setIsLoading] = useState(false)
 
 
