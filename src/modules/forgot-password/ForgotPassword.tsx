@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { setWindowClass } from '@app/utils/helpers';
@@ -6,9 +6,34 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { Form, InputGroup } from 'react-bootstrap';
 import { Button } from '@profabric/react-components';
+import { useState } from 'react';
+import axios from 'axios';
+import { apiKey, baseUrl } from '@app/utils/apiConfig';
+import { forgotPasswordProvider } from '@app/services/forgot-password/forgot-password-provider';
 
 const ForgotPassword = () => {
+
+  const navigate = useNavigate();
   const [t] = useTranslation();
+
+  // conexion endpoint
+  const [error, setError]: any = useState(null);
+  const [isLoading, setIsLoading] = useState(false)
+
+
+  const forgotPassword = async ( email: string) => {
+    try {
+      setIsLoading(true);
+      const response = await forgotPasswordProvider(email);
+      console.log("response: ", response);
+      setIsLoading(false);
+      navigate('/login');
+
+    } catch (error: any) {
+      setIsLoading(false);
+      toast.error(error.message || 'Failed');
+    }
+  }
 
   const { handleChange, values, handleSubmit, touched, errors } = useFormik({
     initialValues: {
@@ -18,8 +43,7 @@ const ForgotPassword = () => {
       email: Yup.string().email('Invalid email address').required('Required'),
     }),
     onSubmit: (values) => {
-      toast.warn('Not yet functional');
-      console.log('values', values);
+      forgotPassword(values.email);
     },
   });
 
@@ -64,7 +88,9 @@ const ForgotPassword = () => {
             </div>
             <div className="row">
               <div className="col-12">
-                <Button>{t('recover.requestNewPassword')}</Button>
+                <Button
+                  onClick={handleSubmit as any}
+                >{t('recover.requestNewPassword')}</Button>
               </div>
             </div>
           </form>
