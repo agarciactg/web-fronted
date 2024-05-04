@@ -28,3 +28,28 @@ export const forgotPasswordProvider = async (email: string): Promise<any> => {
     return Promise.reject({ message: "error en el envio de email." });
   }
 };
+
+
+export const resetPasswordProvider = async ({ email, resetCode, newPassword }): Promise<any> => {
+  try {
+    const apiUrl: string = baseUrl + "reset-password/confirm/";
+
+    const postData = {
+      email: email,
+      reset_code: resetCode,
+      password: newPassword
+    };
+
+    const headers = {
+      "X-Api-Key": apiKey,
+      "Content-Type": "application/json",
+    };
+
+    const response = await axios.post(apiUrl, postData, { headers });
+    toast.success('Contraseña restablecida con éxito');
+    return response.data;
+  } catch (error: any) {
+    toast.error(error.message || 'Failed');
+    return Promise.reject({ message: "Codigo expiado o codigo invalido." });
+  }
+};
