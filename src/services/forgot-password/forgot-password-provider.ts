@@ -49,7 +49,6 @@ export const resetPasswordProvider = async ({ email, resetCode, newPassword }): 
     toast.success('Contraseña restablecida con éxito');
     return response.data;
   } catch (error: any) {
-    toast.error(error.message || 'Failed');
     return Promise.reject({ message: "Codigo expiado o codigo invalido." });
   }
 };

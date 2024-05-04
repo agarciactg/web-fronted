@@ -60,24 +60,15 @@ const ForgotPassword = () => {
     initialValues: { resetCode: '', newPassword: '', confirmPassword: '' },
     validationSchema: Yup.object({
       resetCode: Yup.string().required('Required'),
-      newPassword: Yup.string().required('Required'),
+      newPassword: Yup.string()
+        .min(5, 'Debe terner 5 caracteres o mas')
+        .max(30, 'Debe tener menos de 30 caracteres')
+        .required('Required'),
       confirmPassword: Yup.string().oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
         .required('Required'),
     }),
     onSubmit: (values) => resetPassword(values),
   });
-
-  // const { handleChange, values, handleSubmit, touched, errors } = useFormik({
-  //   initialValues: {
-  //     email: '',
-  //   },
-  //   validationSchema: Yup.object({
-  //     email: Yup.string().email('Invalid email address').required('Required'),
-  //   }),
-  //   onSubmit: (values) => {
-  //     forgotPassword(values.email);
-  //   },
-  // });
 
   setWindowClass('hold-transition login-page');
 
@@ -151,6 +142,9 @@ const ForgotPassword = () => {
               >
                 {t('recover.resetPasswordButton')}
               </Button>
+              <p className="mb-1">
+                <Link to="/login">Login</Link>
+              </p>
             </form>
           </div>
         </div>
