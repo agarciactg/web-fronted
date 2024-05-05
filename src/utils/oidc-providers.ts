@@ -95,9 +95,10 @@ export const authLoginT = async (
     };
 
     const response = await axios.post(apiUrl, postData, { headers });
-    const token: string = response.data.data.access;
 
-    localStorage.setItem("authentication", JSON.stringify(token));
+    // save type user and token in the local store.
+    localStorage.setItem("type_user", JSON.stringify(response.data.data.type_user));
+    localStorage.setItem("authentication", JSON.stringify(response.data.data.access));
 
     const user = {
       profile: {
