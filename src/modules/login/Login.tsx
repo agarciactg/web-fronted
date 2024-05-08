@@ -31,12 +31,12 @@ const Login = () => {
       setAuthLoading(false);
 
       // TODO: redirect to other page, depent of type of user
+      navigate('/users')
       // firs working in Administrator
-
 
       // ===== make logic with redux to save in state global in the aplication.
       // dispatch(loginUser(token));
-      navigate('/');
+      // navigate('/');
     } catch (error: any) {
       setAuthLoading(false);
       toast.error(error.message || 'Failed');

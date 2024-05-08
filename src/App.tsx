@@ -25,6 +25,7 @@ import {
   getAuthStatus,
   getFacebookLoginStatus,
 } from './utils/oidc-providers';
+import UsersList from './pages/Admin/Users';
 
 const { VITE_NODE_ENV } = import.meta.env;
 
@@ -95,6 +96,7 @@ const App = () => {
           <Route path="/recover-password" element={<RecoverPassword />} />
         </Route>
         <Route path="/" element={<PrivateRoute />}>
+          <Route path="/users" element={<UsersList />} />
           <Route path="/" element={<Main />}>
             <Route path="/sub-menu-2" element={<Blank />} />
             <Route path="/sub-menu-1" element={<SubMenu />} />
