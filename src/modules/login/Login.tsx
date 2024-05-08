@@ -30,13 +30,9 @@ const Login = () => {
       toast.success('Login is succeed!');
       setAuthLoading(false);
 
-      // TODO: redirect to other page, depent of type of user
-      navigate('/users')
-      // firs working in Administrator
+      // redirect of home
+      navigate('/')
 
-      // ===== make logic with redux to save in state global in the aplication.
-      // dispatch(loginUser(token));
-      // navigate('/');
     } catch (error: any) {
       setAuthLoading(false);
       toast.error(error.message || 'Failed');

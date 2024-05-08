@@ -1,6 +1,9 @@
 import { ContentHeader } from '@components';
 
 const Dashboard = () => {
+
+  //TODO: make type of menu depent of type users
+
   return (
     <div>
       <ContentHeader title="Dashboard" />
@@ -8,6 +11,21 @@ const Dashboard = () => {
       <section className="content">
         <div className="container-fluid">
           <div className="row">
+          <div className="col-lg-3 col-6">
+              <div className="small-box bg-warning">
+                <div className="inner">
+                  <h3>44</h3>
+
+                  <p>User Registrations</p>
+                </div>
+                <div className="icon">
+                  <i className="ion ion-person-add" />
+                </div>
+                <a href="/users" className="small-box-footer">
+                  More info <i className="fas fa-arrow-circle-right" />
+                </a>
+              </div>
+            </div>
             <div className="col-lg-3 col-6">
               <div className="small-box bg-info">
                 <div className="inner">
@@ -34,21 +52,6 @@ const Dashboard = () => {
                 </div>
                 <div className="icon">
                   <i className="ion ion-stats-bars" />
-                </div>
-                <a href="/" className="small-box-footer">
-                  More info <i className="fas fa-arrow-circle-right" />
-                </a>
-              </div>
-            </div>
-            <div className="col-lg-3 col-6">
-              <div className="small-box bg-warning">
-                <div className="inner">
-                  <h3>44</h3>
-
-                  <p>User Registrations</p>
-                </div>
-                <div className="icon">
-                  <i className="ion ion-person-add" />
                 </div>
                 <a href="/" className="small-box-footer">
                   More info <i className="fas fa-arrow-circle-right" />

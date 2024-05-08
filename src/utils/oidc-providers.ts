@@ -1,7 +1,7 @@
 import { UserManager, UserManagerSettings } from "oidc-client-ts";
 import { sleep } from "./helpers";
 import axios from "axios";
-import { apiKey, baseUrl } from "./apiConfig";
+import { baseUrl, headers } from "./apiConfig";
 import { User } from "./types";
 
 declare const FB: any;
@@ -89,16 +89,15 @@ export const authLoginT = async (
       password: password,
     };
 
-    const headers = {
-      "X-Api-Key": apiKey,
-      "Content-Type": "application/json",
-    };
-
     const response = await axios.post(apiUrl, postData, { headers });
 
     // save type user and token in the local store.
     localStorage.setItem("type_user", JSON.stringify(response.data.data.type_user));
-    localStorage.setItem("authentication", JSON.stringify(response.data.data.access));
+    localStorage.setItem("token", JSON.stringify(response.data.data.access));
+    localStorage.setItem(
+      "authentication",
+      JSON.stringify({ profile: { email: email } })
+    );
 
     const user = {
       profile: {

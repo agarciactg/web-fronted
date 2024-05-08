@@ -69,8 +69,11 @@ const UsersList = () => {
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Username</th>
+                    <th>Numero De documento</th>
+                    <th>Correo</th>
+                    <th>Estado</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -79,11 +82,21 @@ const UsersList = () => {
                     <tr key={user.id}>
                       <td>{user.id}</td>
                       <td>{`${user.first_name} ${user.last_name}`}</td>
+                      <td>{user.username}</td>
+                      <td>{user.document_number}</td>
                       <td>{user.email}</td>
                       <td>
                         <button
+                          className={`btn btn-sm ${user.is_active ? 'btn-success' : 'btn-warning'}`}
+                          style={{ width: '70px' }}
+                        >
+                          {user.is_active ? 'Active' : 'Inactive'}
+                        </button>
+                      </td>
+                      <td>
+                        <button
                           className="btn btn-primary btn-sm"
-                          // onClick={() => handleEdit(user.id, { name: 'Nuevo nombre', email: user.email })}
+                        // onClick={() => handleEdit(user.id, { name: 'Nuevo nombre', email: user.email })}
                         >
                           Edit
                         </button>
