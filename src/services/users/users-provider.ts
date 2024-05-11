@@ -9,7 +9,7 @@ export interface User {
   first_name: string;
   last_name: string;
   username: string;
-  type_document: number | null;
+  type_document: string | null;
   document_number: number | null;
   email: string;
   avatar: string | null;
@@ -27,6 +27,16 @@ export interface UsersResponse {
   };
 }
 
+export interface UserDetail {
+  code_transaction: string;
+  data: User
+}
+
+export const detailUser = async (id: number): Promise<UserDetail> => {
+  const API_URL = `${baseUrl}users/actions/${id}/`
+  const response = await axios.get<UserDetail>(API_URL, { headers });
+  return response.data;
+};
 
 export const fetchUsers = async (): Promise<UsersResponse> => {
   const API_URL = baseUrl + 'users/list/'
@@ -39,8 +49,9 @@ export const createUser = async (user: Omit<User, 'id'>): Promise<User> => {
   return response.data;
 };
 
-export const updateUser = async (id: number, updatedUser: Omit<User, 'id'>): Promise<User> => {
-  const response = await axios.put<User>(`${API_URL}/${id}`, updatedUser);
+export const updateUser = async (id: number, updatedUser: Partial<Omit<User, 'id'>>): Promise<User> => {
+  const API_URL = `${baseUrl}users/actions/${id}/`
+  const response = await axios.put<User>(API_URL, updatedUser, { headers });
   return response.data;
 };
 

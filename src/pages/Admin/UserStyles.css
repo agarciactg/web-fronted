@@ -1,0 +1,4 @@
+.blur-background {
+    filter: blur(4px);
+    pointer-events: none;
+}
