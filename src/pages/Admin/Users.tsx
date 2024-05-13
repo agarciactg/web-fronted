@@ -61,8 +61,8 @@ const UsersList = () => {
   }
 
   const handleDelete = async (id: number) => {
-    await deleteUser(id);
-    setUsers(users.filter(user => user.id !== id));
+    const deleteData: User = await deleteUser(id);
+    await loadUsers();
   };
 
 
@@ -87,8 +87,8 @@ const UsersList = () => {
                       <th>Tipo de Documento</th>
                       <th># de documento</th>
                       <th>Correo</th>
-                      <th>Estado</th>
                       <th>Tipo Usuario</th>
+                      <th>Estado</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -128,6 +128,7 @@ const UsersList = () => {
                     ))}
                   </tbody>
                 </table>
+                <br/>
                 <div>
                   <button
                     className="btn btn-secondary"

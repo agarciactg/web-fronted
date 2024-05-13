@@ -55,6 +55,8 @@ export const updateUser = async (id: number, updatedUser: Partial<Omit<User, 'id
   return response.data;
 };
 
-export const deleteUser = async (id: number): Promise<void> => {
-  await axios.delete(`${API_URL}/${id}`);
+export const deleteUser = async (id: number): Promise<User> => {
+  const API_URL = `${baseUrl}users/actions/${id}/`
+  const response = await axios.delete<User>(API_URL, { headers });
+  return response.data;
 };

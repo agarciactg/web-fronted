@@ -83,6 +83,7 @@ const App = () => {
   return (
     <>
       <Routes>
+        {/* Rutas públicas */}
         <Route path="/login" element={<PublicRoute />}>
           <Route path="/login" element={<Login />} />
         </Route>
@@ -95,6 +96,8 @@ const App = () => {
         <Route path="/recover-password" element={<PublicRoute />}>
           <Route path="/recover-password" element={<RecoverPassword />} />
         </Route>
+
+        {/* Rutas privadas */}
         <Route path="/" element={<PrivateRoute />}>
           <Route path="/" element={<Main />}>
             <Route path="/sub-menu-2" element={<Blank />} />

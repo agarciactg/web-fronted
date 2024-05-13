@@ -30,8 +30,19 @@ const Login = () => {
       toast.success('Login is succeed!');
       setAuthLoading(false);
 
-      // redirect of home
-      navigate('/')
+      const userType = localStorage.getItem('type_user');
+
+      if (userType === "Administrador") {
+        console.log('------------------')
+        navigate('/blank');
+
+      } else if (userType === "Estudiante") {
+        navigate('/blank');
+  
+      } else {
+        navigate('/users');
+
+      }
 
     } catch (error: any) {
       setAuthLoading(false);
