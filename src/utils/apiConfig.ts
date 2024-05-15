@@ -10,3 +10,14 @@ export const headers = {
   "Content-Type": "application/json",
   "Authorization": `Bearer ${token}`
 }
+
+type RoleRedirects = {
+  [key: string]: string;
+};
+
+
+export const roleRedirects: RoleRedirects = {
+  'Administrador': '/',
+  'Docente': '/blank',
+  'Estudiante': '/profile' 
+}

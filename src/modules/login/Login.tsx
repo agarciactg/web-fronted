@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -9,9 +9,10 @@ import { setWindowClass } from '@app/utils/helpers';
 import { Checkbox } from '@profabric/react-components';
 import * as Yup from 'yup';
 
-import { authLogin, authLoginT } from '@app/utils/oidc-providers';
+import { authLoginT } from '@app/utils/oidc-providers';
 import { Form, InputGroup } from 'react-bootstrap';
 import { Button } from '@app/styles/common';
+import { roleRedirects } from '@app/utils/apiConfig';
 
 const Login = () => {
   const [isAuthLoading, setAuthLoading] = useState(false);
@@ -27,22 +28,13 @@ const Login = () => {
       setAuthLoading(true);
       const response = await authLoginT(email, password);
       dispatch(setAuthentication(response as any));
-      toast.success('Login is succeed!');
+      toast.success('Logeeado con Exito!');
       setAuthLoading(false);
 
-      const userType = localStorage.getItem('type_user');
-
-      if (userType === "Administrador") {
-        console.log('------------------')
-        navigate('/blank');
-
-      } else if (userType === "Estudiante") {
-        navigate('/blank');
-  
-      } else {
-        navigate('/users');
-
-      }
+      const userType: any = JSON.parse(localStorage.getItem("type_user") as string);
+      const redirectPath = roleRedirects[userType] || "/"
+      
+      navigate(redirectPath);
 
     } catch (error: any) {
       setAuthLoading(false);
