@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { MenuItem } from '@components';
@@ -13,7 +14,7 @@ export interface IMenuItem {
   children?: Array<IMenuItem>;
 }
 
-export const MENU: IMenuItem[] = [
+export const MENU_ADMIN: IMenuItem[] = [
   {
     name: i18n.t('menusidebar.label.dashboard'),
     icon: 'fas fa-tachometer-alt nav-icon',
@@ -43,24 +44,81 @@ export const MENU: IMenuItem[] = [
   },
 ];
 
+export const MENU_TEACHER: IMenuItem[] = [
+  {
+    name: i18n.t('menusidebar.label.mainMenu'),
+    icon: 'far fa-caret-square-down nav-icon',
+    children: [
+      {
+        name: i18n.t('menusidebar.label.subMenu'),
+        icon: 'fas fa-hammer nav-icon',
+        path: '/sub-menu-1',
+      },
+
+      {
+        name: i18n.t('menusidebar.label.blank'),
+        icon: 'fas fa-cogs nav-icon',
+        path: '/sub-menu-2',
+      },
+    ],
+  },
+];
+
+export const MENU_STUDENT: IMenuItem[] = [
+  {
+    name: i18n.t('menusidebar.label.blank'),
+    icon: 'fas fa-wrench nav-icon',
+    path: '/blank',
+  },
+  // Otros ítems para el estudiante...
+];
+
 const StyledBrandImage = styled(Image)`
   float: left;
   line-height: 0.8;
   margin: -1px 8px 0 6px;
   opacity: 0.8;
-  --pf-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
-    0 6px 6px rgba(0, 0, 0, 0.23) !important;
+  --pf-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23) !important;
 `;
 
 const StyledUserImage = styled(Image)`
   --pf-box-shadow: 0 3px 6px #00000029, 0 3px 6px #0000003b !important;
 `;
 
-const MenuSidebar = () => {
+const MenuSidebar: React.FC = () => {
   const authentication = useSelector((state: any) => state.auth.authentication);
   const sidebarSkin = useSelector((state: any) => state.ui.sidebarSkin);
   const menuItemFlat = useSelector((state: any) => state.ui.menuItemFlat);
   const menuChildIndent = useSelector((state: any) => state.ui.menuChildIndent);
+
+  // Define el tipo de usuario y selecciona el menú correspondiente
+  const [selectedMenu, setSelectedMenu] = useState<IMenuItem[]>([]);
+  const [userType, setUserType] = useState<string | null>(null);
+  
+  useEffect(() => {
+    const type = localStorage.getItem("type_user");
+    if (type) {
+      const normalizedType = JSON.parse(type).toLowerCase().trim();
+      setUserType(normalizedType);
+
+      switch (normalizedType) {
+        case "administrador":
+          setSelectedMenu(MENU_ADMIN);
+          break;
+        case "docente":
+          setSelectedMenu(MENU_TEACHER);
+          break;
+        case "estudiante":
+          setSelectedMenu(MENU_STUDENT);
+          break;
+        default:
+          setSelectedMenu([]);
+          break;
+      }
+    } else { 
+      console.log("Tipo de usuario no encontrado.")
+    }
+  }, [authentication]); // Considera actualizar esta dependencia si es necesario
 
   return (
     <aside className={`main-sidebar elevation-4 ${sidebarSkin}`}>
@@ -92,23 +150,20 @@ const MenuSidebar = () => {
             </Link>
           </div>
         </div>
-
+        
+        {/* 
         <div className="form-inline">
           <SidebarSearch />
-        </div>
+        </div> 
+        */}
 
         <nav className="mt-2" style={{ overflowY: 'hidden' }}>
           <ul
-            className={`nav nav-pills nav-sidebar flex-column${
-              menuItemFlat ? ' nav-flat' : ''
-            }${menuChildIndent ? ' nav-child-indent' : ''}`}
+            className={`nav nav-pills nav-sidebar flex-column${menuItemFlat ? ' nav-flat' : ''}${menuChildIndent ? ' nav-child-indent' : ''}`}
             role="menu"
           >
-            {MENU.map((menuItem: IMenuItem) => (
-              <MenuItem
-                key={menuItem.name + menuItem.path}
-                menuItem={menuItem}
-              />
+            {selectedMenu.map((menuItem: IMenuItem) => (
+              <MenuItem key={menuItem.name + menuItem.path} menuItem={menuItem} />
             ))}
           </ul>
         </nav>
