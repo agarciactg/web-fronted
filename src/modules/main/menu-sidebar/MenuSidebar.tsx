@@ -21,27 +21,32 @@ export const MENU_ADMIN: IMenuItem[] = [
     path: '/',
   },
   {
-    name: i18n.t('menusidebar.label.blank'),
-    icon: 'fas fa-wrench nav-icon',
-    path: '/blank',
+    name: i18n.t('menusidebar.label.enrollment'),
+    icon: 'fa fa-users nav-icon',
+    path: '/enrollment',
   },
   {
-    name: i18n.t('menusidebar.label.mainMenu'),
-    icon: 'far fa-caret-square-down nav-icon',
-    children: [
-      {
-        name: i18n.t('menusidebar.label.subMenu'),
-        icon: 'fas fa-hammer nav-icon',
-        path: '/sub-menu-1',
-      },
-
-      {
-        name: i18n.t('menusidebar.label.blank'),
-        icon: 'fas fa-cogs nav-icon',
-        path: '/sub-menu-2',
-      },
-    ],
+    name: i18n.t('menusidebar.label.users'),
+    icon: 'fa fa-list nav-icon',
+    path: '/users',
   },
+  // {
+  //   name: i18n.t('menusidebar.label.mainMenu'),
+  //   icon: 'far fa-caret-square-down nav-icon',
+  //   children: [
+  //     {
+  //       name: i18n.t('menusidebar.label.subMenu'),
+  //       icon: 'fas fa-hammer nav-icon',
+  //       path: '/sub-menu-1',
+  //     },
+
+  //     {
+  //       name: i18n.t('menusidebar.label.blank'),
+  //       icon: 'fas fa-cogs nav-icon',
+  //       path: '/sub-menu-2',
+  //     },
+  //   ],
+  // },
 ];
 
 export const MENU_TEACHER: IMenuItem[] = [

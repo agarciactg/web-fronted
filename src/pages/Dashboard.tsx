@@ -19,19 +19,18 @@ const UserRegistrations: React.FC = () => (
   </div>
 );
 
-// Componente para los nuevos pedidos
-const OtherMenuTwo: React.FC = () => (
+const EnrollmentModule: React.FC = () => (
   <div className="col-lg-3 col-6">
     <div className="small-box bg-info">
       <div className="inner">
         <h3>150</h3>
-        <p>New Orders</p>
+        <p>Matriculas</p>
       </div>
       <div className="icon">
-        <i className="ion ion-bag" />
+        <i className="ion-ios-people" />
       </div>
-      <a href="/" className="small-box-footer">
-        More info <i className="fas fa-arrow-circle-right" />
+      <a href="/enrollment" className="small-box-footer">
+        Ir al module <i className="fas fa-arrow-circle-right" />
       </a>
     </div>
   </div>
@@ -92,7 +91,7 @@ const Dashboard: React.FC = () => {
         return (
           <>
             <UserRegistrations />
-            <UserRegistrations />
+            <EnrollmentModule />
             <UserRegistrations />
             <UserRegistrations />
           </>
@@ -101,7 +100,7 @@ const Dashboard: React.FC = () => {
         return (
           <>
             <UserRegistrations />
-            <OtherMenuTwo />
+            <OtherMenuThree />
             <OtherMenuThree />
             <OtherMenuFour />
           </>
@@ -110,7 +109,7 @@ const Dashboard: React.FC = () => {
         return (
           <>
             <UserRegistrations />
-            <OtherMenuTwo />
+            <OtherMenuThree />
             <OtherMenuThree />
           </>
         );

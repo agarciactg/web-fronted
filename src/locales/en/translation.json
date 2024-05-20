@@ -79,7 +79,9 @@
       "profile": "Profile",
       "blank": "Blank",
       "mainMenu": "Main Menu",
-      "subMenu": "Sub Menu"
+      "subMenu": "Sub Menu",
+      "enrollment": "Matriculas",
+      "users": "Lista de usuarios"
     }
   },
   "footer": {

@@ -26,6 +26,7 @@ import {
   getFacebookLoginStatus,
 } from './utils/oidc-providers';
 import UsersList from './pages/Admin/Users';
+import Enrollment from './pages/Admin/Enrollment';
 
 const { VITE_NODE_ENV } = import.meta.env;
 
@@ -105,6 +106,8 @@ const App = () => {
             <Route path="/blank" element={<Blank />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/users" element={<UsersList />} />
+            <Route path="/enrollment" element={<Enrollment />} />
+            <Route path="/academic-group" element={<Enrollment />} />
             <Route path="/" element={<Dashboard />} />
           </Route>
         </Route>
