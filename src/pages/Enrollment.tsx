@@ -3,6 +3,8 @@ import { deleteEnrollment, detailEnrollment, EnrollmentInterface, EnrollmentResp
 import { headers } from "@app/utils/apiConfig";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import EditEnrollmentModal from "./modal/EditEnrolModal";
+import './ModalStyles.css'
 
 // TODO: Probar lista de matriculas
 const Enrollment = () => {
@@ -52,7 +54,7 @@ const Enrollment = () => {
 
     const handleEditInit = async (id: number) => {
         const detailResponse = await detailEnrollment(id);
-        setEditingEnrollment(detailResponse);
+        setEditingEnrollment(detailResponse.data);
         setIsEditing(true);
     }
 
@@ -135,8 +137,8 @@ const Enrollment = () => {
                 </section>
             </div>
             {/* Modal que no se ve afectado por el desenfoque */}
-            {/* {isEditing && editingEnrollment && (
-                <EditUserModal
+            {isEditing && editingEnrollment && (
+                <EditEnrollmentModal
                     enrollment={editingEnrollment}
                     onClose={() => {
                         setIsEditing(false);
@@ -144,7 +146,7 @@ const Enrollment = () => {
                     }}
                     onSave={handleEditSubmit}
                 />
-            )} */}
+            )}
         </div>
     );
 };

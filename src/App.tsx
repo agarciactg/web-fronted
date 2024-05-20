@@ -25,8 +25,8 @@ import {
   getAuthStatus,
   getFacebookLoginStatus,
 } from './utils/oidc-providers';
-import UsersList from './pages/Admin/Users';
-import Enrollment from './pages/Admin/Enrollment';
+import UsersList from './pages/Users';
+import Enrollment from './pages/Enrollment';
 
 const { VITE_NODE_ENV } = import.meta.env;
 

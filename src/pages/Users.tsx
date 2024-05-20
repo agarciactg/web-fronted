@@ -4,7 +4,7 @@ import { createUser, deleteUser, detailUser, fetchUsers, updateUser, User, Users
 import axios from 'axios';
 import { headers } from '@app/utils/apiConfig';
 import EditUserModal from './modal/EditUserModal';
-import './UserStyles.css'
+import './ModalStyles.css'
 
 
 const UsersList = () => {

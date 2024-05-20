@@ -22,8 +22,7 @@ export interface EnrollmentInterface {
     subjects: Subject[],
     student: Student,
     date_created: string
-  }
-  
+}
 
 export interface EnrollmentResponse {
     code_transaction: string;
@@ -33,8 +32,18 @@ export interface EnrollmentResponse {
       previous: string | null;
       results: EnrollmentInterface[];
     };
-  }
+}
 
+export interface EnrollmentDetail {
+  code_transaction: string;
+  data: EnrollmentInterface
+}
+
+export const detailEnrollment = async (id: number): Promise<EnrollmentDetail> => {
+  const API_URL = `${baseUrl}enrollment/actions/${id}/` 
+  const response = await axios.get<EnrollmentDetail>(API_URL, { headers });
+  return response.data;
+}
 
 export const fetchEnrollment = async (): Promise<EnrollmentResponse> => {
     const API_URL = baseUrl + 'enrollment/list/'
@@ -43,19 +52,13 @@ export const fetchEnrollment = async (): Promise<EnrollmentResponse> => {
 }
 
 export const updatedEnrollment = async (id: number, updatedEnrollment: Partial<Omit<EnrollmentInterface, 'id'>>): Promise<EnrollmentInterface> => {
-  const API_URL = ''
+  const API_URL = `${baseUrl}enrollment/actions/${id}/` 
   const response = await axios.post<EnrollmentInterface>(API_URL, updatedEnrollment, { headers });
   return response.data;
 }
 
-export const detailEnrollment = async (id: number): Promise<EnrollmentInterface> => {
-  const API_URL = ''
-  const response = await axios.get<EnrollmentInterface>(API_URL, { headers });
-  return response.data;
-}
-
 export const deleteEnrollment = async (id: number): Promise<EnrollmentInterface> => {
-  const API_URL = ''
+  const API_URL = `${baseUrl}enrollment/actions/${id}/`
   const response = await axios.delete<EnrollmentInterface>(API_URL, { headers });
   return response.data;
 }
