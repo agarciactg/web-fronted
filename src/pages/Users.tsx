@@ -70,12 +70,12 @@ const UsersList = () => {
     <div>
       {/* Contenedor Principal que podría volverse borroso */}
       <div className={isEditing ? "blur-background" : ""}>
-        <ContentHeader title="User List" />
+        <ContentHeader title="Usuarios" />
         <section className="content">
           <div className="container-fluid">
             <div className="card">
               <div className="card-header">
-                <h3 className="card-title">List of Users</h3>
+                <h3 className="card-title">Lista de usuarios</h3>
               </div>
               <div className="card-body">
                 <table className="table table-bordered">
@@ -88,7 +88,6 @@ const UsersList = () => {
                       <th># de documento</th>
                       <th>Correo</th>
                       <th>Tipo Usuario</th>
-                      <th>Estado</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -102,14 +101,6 @@ const UsersList = () => {
                         <td>{user.document_number}</td>
                         <td>{user.email}</td>
                         <td>{user.type_user}</td>
-                        <td>
-                          <button
-                            className={`btn btn-sm ${user.is_active ? 'btn-success' : 'btn-warning'}`}
-                            style={{ width: '70px' }}
-                          >
-                            {user.is_active ? 'Active' : 'Inactive'}
-                          </button>
-                        </td>
                         <td>
                           <button
                             className="btn btn-primary btn-sm"
@@ -135,18 +126,18 @@ const UsersList = () => {
                     onClick={handlePreviousPage}
                     disabled={!previusPage}
                   >
-                    Previous
+                    Anterior
                   </button>
                   <button
                     className="btn btn-secondary ml-2"
                     onClick={handleNextPage}
                     disabled={!nextPage}
                   >
-                    Next
+                    Siguiente
                   </button>
                 </div>
               </div>
-              <div className="card-footer">Total Users: {users.length}</div>
+              <div className="card-footer">Total: {users.length}</div>
             </div>
           </div>
         </section>

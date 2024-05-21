@@ -15,7 +15,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
   const [typeDocument, setTypeDocument] = useState<string | undefined>(undefined);
   const [documentNumber, setDocumentNumber] = useState<string | undefined>(undefined);
   const [email, setEmail] = useState<string | undefined>(undefined);
-  const [isActive, setIsActive] = useState<boolean | undefined>(undefined);
+  // const [isActive, setIsActive] = useState<boolean | undefined>(undefined);
 
   // Manejar el guardado de los cambios
   const handleSave = () => {
@@ -27,7 +27,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
     if (typeDocument !== undefined) updatedData.type_document = typeDocument;
     if (documentNumber !== undefined) updatedData.document_number = parseInt(documentNumber, 10);
     if (email !== undefined) updatedData.email = email;
-    if (isActive !== undefined) updatedData.is_active = isActive;
+    // if (isActive !== undefined) updatedData.is_active = isActive;
 
     onSave(updatedData);
   };
@@ -39,7 +39,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Edit User</h5>
+            <h5 className="modal-title">Editar Usuario</h5>
             <button type="button" className="close" onClick={onClose}>
               <span>&times;</span>
             </button>
@@ -47,7 +47,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
           <div className="modal-body">
             <form>
               <div className="form-group">
-                <label htmlFor="typeUser">Type User</label>
+                <label htmlFor="typeUser">Tipo de usuario</label>
                 <select
                   className="form-control"
                   id="typeUser"
@@ -66,7 +66,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
                 </select>
               </div>
               <div className="form-group">
-                <label htmlFor="firstName">First Name</label>
+                <label htmlFor="firstName">Nombres</label>
                 <input
                   type="text"
                   className="form-control"
@@ -76,7 +76,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="lastName">Last Name</label>
+                <label htmlFor="lastName">Apellidos</label>
                 <input
                   type="text"
                   className="form-control"
@@ -96,7 +96,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="typeDocument">Type Document</label>
+                <label htmlFor="typeDocument">Tipo de documento</label>
                 <select
                   className="form-control"
                   id="typeDocument"
@@ -110,7 +110,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
                 </select>
               </div>
               <div className="form-group">
-                <label htmlFor="documentNumber">Document Number</label>
+                <label htmlFor="documentNumber">Numero de documento</label>
                 <input
                   type="text"
                   className="form-control"
@@ -120,7 +120,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Correo</label>
                 <input
                   type="email"
                   className="form-control"
@@ -129,24 +129,14 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
                   onChange={e => setEmail(e.target.value)}
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="isActive">Is Active</label>
-                <input
-                  type="checkbox"
-                  className="form-control"
-                  id="isActive"
-                  checked={isActive ?? user.is_active}
-                  onChange={e => setIsActive(e.target.checked)}
-                />
-              </div>
             </form>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" onClick={onClose}>
-              Close
+              Cerrar
             </button>
             <button type="button" className="btn btn-primary" onClick={handleSave}>
-              Save Changes
+              Guardar cambios
             </button>
           </div>
         </div>

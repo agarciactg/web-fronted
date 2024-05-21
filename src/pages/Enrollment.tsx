@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import EditEnrollmentModal from "./modal/EditEnrolModal";
 import './ModalStyles.css'
 
-// TODO: Probar lista de matriculas
 const Enrollment = () => {
     // states
     const [enrollments, setEnrollments] = useState<EnrollmentInterface[]>([]);
@@ -63,7 +62,6 @@ const Enrollment = () => {
         await loadEnrollments();
     }
 
-    // Todo: testear endpoint para el consumo de la vista
     return (
         <div>
             {/* Contenedor Principal que podría volverse borroso */}

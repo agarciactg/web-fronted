@@ -27,6 +27,7 @@ import {
 } from './utils/oidc-providers';
 import UsersList from './pages/Users';
 import Enrollment from './pages/Enrollment';
+import AcademicGroupsList from './pages/AcademicGroups';
 
 const { VITE_NODE_ENV } = import.meta.env;
 
@@ -107,7 +108,7 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/users" element={<UsersList />} />
             <Route path="/enrollment" element={<Enrollment />} />
-            <Route path="/academic-group" element={<Enrollment />} />
+            <Route path="/academic-groups" element={<AcademicGroupsList />} />
             <Route path="/" element={<Dashboard />} />
           </Route>
         </Route>

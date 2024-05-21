@@ -14,6 +14,7 @@ export interface User {
   email: string;
   avatar: string | null;
   avatar_url: string | null;
+  get_full_name: string;
   is_active: boolean;
 }
 

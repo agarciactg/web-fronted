@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { ContentHeader } from '@components';
 
-// Componente para las registraciones de usuario
+
 const UserRegistrations: React.FC = () => (
   <div className="col-lg-3 col-6">
     <div className="small-box bg-warning">
       <div className="inner">
         <h3>44</h3>
-        <p>User Registrations</p>
+        <p>Usuarios</p>
       </div>
       <div className="icon">
-        <i className="ion ion-person-add" />
+        <i className="ion ion-ios-people" />
       </div>
       <a href="/users" className="small-box-footer">
-        More info <i className="fas fa-arrow-circle-right" />
+        Ir al module <i className="fas fa-arrow-circle-right" />
       </a>
     </div>
   </div>
@@ -27,7 +27,7 @@ const EnrollmentModule: React.FC = () => (
         <p>Matriculas</p>
       </div>
       <div className="icon">
-        <i className="ion-ios-people" />
+        <i className="ion ion-document-text" />
       </div>
       <a href="/enrollment" className="small-box-footer">
         Ir al module <i className="fas fa-arrow-circle-right" />
@@ -36,25 +36,23 @@ const EnrollmentModule: React.FC = () => (
   </div>
 );
 
-// Componente para la tasa de rebote
-const OtherMenuThree: React.FC = () => (
+const AcademicGroups: React.FC = () => (
   <div className="col-lg-3 col-6">
     <div className="small-box bg-success">
       <div className="inner">
         <h3>53<sup style={{ fontSize: '20px' }}>%</sup></h3>
-        <p>Bounce Rate</p>
+        <p>Grupos Academicos</p>
       </div>
       <div className="icon">
-        <i className="ion ion-stats-bars" />
+        <i className="ion ion-ios-keypad" />
       </div>
-      <a href="/" className="small-box-footer">
-        More info <i className="fas fa-arrow-circle-right" />
+      <a href="/academic-groups" className="small-box-footer">
+        Ir al module <i className="fas fa-arrow-circle-right" />
       </a>
     </div>
   </div>
 );
 
-// Componente para los visitantes únicos
 const OtherMenuFour: React.FC = () => (
   <div className="col-lg-3 col-6">
     <div className="small-box bg-danger">
@@ -77,10 +75,8 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     const type = localStorage.getItem('type_user');
-    console.log("Valor original del localStorage:", type);
     if (type) {
       const normalizedType = JSON.parse(type).toLowerCase().trim();
-      console.log("Valor normalizado:", normalizedType);
       setUserType(normalizedType);
     }
   }, []);
@@ -92,7 +88,7 @@ const Dashboard: React.FC = () => {
           <>
             <UserRegistrations />
             <EnrollmentModule />
-            <UserRegistrations />
+            <AcademicGroups />
             <UserRegistrations />
           </>
         );
@@ -100,8 +96,7 @@ const Dashboard: React.FC = () => {
         return (
           <>
             <UserRegistrations />
-            <OtherMenuThree />
-            <OtherMenuThree />
+            <AcademicGroups />
             <OtherMenuFour />
           </>
         );
@@ -109,8 +104,8 @@ const Dashboard: React.FC = () => {
         return (
           <>
             <UserRegistrations />
-            <OtherMenuThree />
-            <OtherMenuThree />
+            <AcademicGroups />
+            <OtherMenuFour />
           </>
         );
     }

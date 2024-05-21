@@ -30,6 +30,11 @@ export const MENU_ADMIN: IMenuItem[] = [
     icon: 'fa fa-list nav-icon',
     path: '/users',
   },
+  {
+    name: 'Grupos Academicos',
+    icon: 'fa fa-sitemap nav-icon',
+    path: '/academic-groups',
+  },
   // {
   //   name: i18n.t('menusidebar.label.mainMenu'),
   //   icon: 'far fa-caret-square-down nav-icon',
