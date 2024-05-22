@@ -36,7 +36,7 @@ export interface AcademicGroupsDetail {
 
 
 export const detailAcademicGroups = async (id: number): Promise<AcademicGroupsDetail> => {
-  const API_URL = `${baseUrl}academic_groups/actions/${id}/`
+  const API_URL = `${baseUrl}academic_group/actions/${id}/`
   const response = await axios.get<AcademicGroupsDetail>(API_URL, { headers });
   return response.data;
 };
@@ -53,13 +53,13 @@ export const fetchAcademicGroups = async (): Promise<AcademicGroupsResponse> => 
 // };
 
 export const updateAcademicGroups = async (id: number, updatedUser: Partial<Omit<AcademicGroupsInterface, 'id'>>): Promise<AcademicGroupsInterface> => {
-  const API_URL = `${baseUrl}academic_groups/actions/${id}/`
+  const API_URL = `${baseUrl}academic_group/actions/${id}/`
   const response = await axios.put<AcademicGroupsInterface>(API_URL, updatedUser, { headers });
   return response.data;
 };
 
 export const deleteAcademicGroups = async (id: number): Promise<AcademicGroupsInterface> => {
-  const API_URL = `${baseUrl}academic_groups/actions/${id}/`
+  const API_URL = `${baseUrl}academic_group/actions/${id}/`
   const response = await axios.delete<AcademicGroupsInterface>(API_URL, { headers });
   return response.data;
 };

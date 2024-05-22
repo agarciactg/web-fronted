@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ContentHeader } from '@components';
 import axios from 'axios';
 import { headers } from '@app/utils/apiConfig';
-import EditUserModal from './modal/EditUserModal';
+import EditAcademicModal from './modal/EditAcademicModal';
 import './ModalStyles.css'
 import { AcademicGroupsInterface, AcademicGroupsResponse, deleteAcademicGroups, detailAcademicGroups, fetchAcademicGroups, updateAcademicGroups } from '@app/services/academic-groups/academic-groups';
 
@@ -108,13 +108,13 @@ const AcademicGroupsList = () => {
                                                         className="btn btn-primary btn-sm"
                                                         onClick={() => handleEditInit(academic.id)}
                                                     >
-                                                        Edit
+                                                        Editar
                                                     </button>
                                                     <button
                                                         className="btn btn-danger btn-sm ml-2"
                                                         onClick={() => handleDelete(academic.id)}
                                                     >
-                                                        Delete
+                                                        Eliminar
                                                     </button>
                                                 </td>
                                             </tr>
@@ -145,16 +145,16 @@ const AcademicGroupsList = () => {
                 </section>
             </div>
             {/* Modal que no se ve afectado por el desenfoque */}
-            {/* {isEditing && editingUser && (
-                <EditUserModal
-                    user={editingUser}
+            {isEditing && editingAcademicGroups && (
+                <EditAcademicModal
+                    academic={editingAcademicGroups}
                     onClose={() => {
                         setIsEditing(false);
                         // Remueve el desenfoque si necesitas ajustar el UI
                     }}
                     onSave={handleEditSubmit}
                 />
-            )} */}
+            )}
         </div>
     );
 };
