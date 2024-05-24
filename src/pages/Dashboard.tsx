@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ContentHeader } from '@components';
 
 
-const UserRegistrations: React.FC = () => (
+const UserModule: React.FC = () => (
   <div className="col-lg-3 col-6">
     <div className="small-box bg-warning">
       <div className="inner">
@@ -13,7 +13,7 @@ const UserRegistrations: React.FC = () => (
         <i className="ion ion-ios-people" />
       </div>
       <a href="/users" className="small-box-footer">
-        Ir al module <i className="fas fa-arrow-circle-right" />
+        Ir al modulo <i className="fas fa-arrow-circle-right" />
       </a>
     </div>
   </div>
@@ -30,13 +30,13 @@ const EnrollmentModule: React.FC = () => (
         <i className="ion ion-document-text" />
       </div>
       <a href="/enrollment" className="small-box-footer">
-        Ir al module <i className="fas fa-arrow-circle-right" />
+        Ir al modulo <i className="fas fa-arrow-circle-right" />
       </a>
     </div>
   </div>
 );
 
-const AcademicGroups: React.FC = () => (
+const AcademicGroupsModule: React.FC = () => (
   <div className="col-lg-3 col-6">
     <div className="small-box bg-success">
       <div className="inner">
@@ -44,27 +44,27 @@ const AcademicGroups: React.FC = () => (
         <p>Grupos Academicos</p>
       </div>
       <div className="icon">
-        <i className="ion ion-ios-keypad" />
+        <i className="ion ion-pie-graph" />
       </div>
       <a href="/academic-groups" className="small-box-footer">
-        Ir al module <i className="fas fa-arrow-circle-right" />
+        Ir al modulo <i className="fas fa-arrow-circle-right" />
       </a>
     </div>
   </div>
 );
 
-const OtherMenuFour: React.FC = () => (
+const SubjectsModule: React.FC = () => (
   <div className="col-lg-3 col-6">
     <div className="small-box bg-danger">
       <div className="inner">
         <h3>65</h3>
-        <p>Unique Visitors</p>
+        <p>Asignaturas</p>
       </div>
       <div className="icon">
-        <i className="ion ion-pie-graph" />
+        <i className="ion ion-ios-bookmarks" />
       </div>
-      <a href="/" className="small-box-footer">
-        More info <i className="fas fa-arrow-circle-right" />
+      <a href="/subjects" className="small-box-footer">
+        Ir al modulo <i className="fas fa-arrow-circle-right" />
       </a>
     </div>
   </div>
@@ -86,26 +86,26 @@ const Dashboard: React.FC = () => {
       case "administrador":
         return (
           <>
-            <UserRegistrations />
+            <UserModule />
             <EnrollmentModule />
-            <AcademicGroups />
-            <UserRegistrations />
+            <AcademicGroupsModule />
+            <SubjectsModule />
           </>
         );
       case "estudiantes":
         return (
           <>
-            <UserRegistrations />
-            <AcademicGroups />
-            <OtherMenuFour />
+            <UserModule />
+            <EnrollmentModule />
+            <AcademicGroupsModule />
           </>
         );
       default:
         return (
           <>
-            <UserRegistrations />
-            <AcademicGroups />
-            <OtherMenuFour />
+            <EnrollmentModule />
+            <AcademicGroupsModule />
+            <SubjectsModule />
           </>
         );
     }

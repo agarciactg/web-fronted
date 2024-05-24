@@ -28,6 +28,7 @@ import {
 import UsersList from './pages/Users';
 import Enrollment from './pages/Enrollment';
 import AcademicGroupsList from './pages/AcademicGroups';
+import SubjectsList from './pages/Subjects';
 
 const { VITE_NODE_ENV } = import.meta.env;
 
@@ -109,6 +110,7 @@ const App = () => {
             <Route path="/users" element={<UsersList />} />
             <Route path="/enrollment" element={<Enrollment />} />
             <Route path="/academic-groups" element={<AcademicGroupsList />} />
+            <Route path="/subjects" element={<SubjectsList />} />
             <Route path="/" element={<Dashboard />} />
           </Route>
         </Route>

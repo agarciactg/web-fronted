@@ -35,6 +35,11 @@ export const MENU_ADMIN: IMenuItem[] = [
     icon: 'fa fa-sitemap nav-icon',
     path: '/academic-groups',
   },
+  {
+    name: 'Asignaturas',
+    icon: 'fa fa-book nav-icon',
+    path: '/subjects',
+  },
   // {
   //   name: i18n.t('menusidebar.label.mainMenu'),
   //   icon: 'far fa-caret-square-down nav-icon',
