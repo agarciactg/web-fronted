@@ -47,10 +47,11 @@ export const fetchAcademicGroups = async (): Promise<AcademicGroupsResponse> => 
   return response.data;
 };
 
-// export const createUser = async (user: Omit<User, 'id'>): Promise<User> => {
-//   const response = await axios.post<User>(, user);
-//   return response.data;
-// };
+export const createAcademicGroups = async (academic: Partial<AcademicGroupsInterface>): Promise<any> => {
+  const API_URL = baseUrl + 'academic_group/create/'
+  const response = await axios.post<AcademicGroupsInterface>(API_URL, academic, {headers});
+  return response.data;
+};
 
 export const updateAcademicGroups = async (id: number, updatedUser: Partial<Omit<AcademicGroupsInterface, 'id'>>): Promise<AcademicGroupsInterface> => {
   const API_URL = `${baseUrl}academic_group/actions/${id}/`

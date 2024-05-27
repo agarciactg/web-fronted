@@ -4,15 +4,17 @@ import axios from 'axios';
 import { headers } from '@app/utils/apiConfig';
 import EditAcademicModal from './modal/EditAcademicModal';
 import './ModalStyles.css'
-import { AcademicGroupsInterface, AcademicGroupsResponse, deleteAcademicGroups, detailAcademicGroups, fetchAcademicGroups, updateAcademicGroups } from '@app/services/academic-groups/academic-groups';
+import { AcademicGroupsInterface, AcademicGroupsResponse, createAcademicGroups, deleteAcademicGroups, detailAcademicGroups, fetchAcademicGroups, updateAcademicGroups } from '@app/services/academic-groups/academic-groups';
+import AddAcademicGroupsModal from './modal/AddAcademicGroups';
 
 
-const AcademicGroupsList = () => {
+const AcademicGroupsList: React.FC = () => {
     const [academicGroups, setAcademicGroups] = useState<AcademicGroupsInterface[]>([]);
     const [nextPage, setNextPage] = useState<string | null>(null);
     const [previusPage, setPreviousPage] = useState<string | null>(null);
     const [editingAcademicGroups, setEditingAcademicGroups] = useState<AcademicGroupsInterface | null>(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [isAdding, setIsAdding] = useState(false);
 
     useEffect(() => {
         loadAcademicGroups();
@@ -63,17 +65,38 @@ const AcademicGroupsList = () => {
         await loadAcademicGroups();
     };
 
+    const handleAddNew = () => {
+        setIsAdding(true);
+    };
+
+    const handleAddSubmit = async (academic: Partial<AcademicGroupsInterface>): Promise<void> => {
+        try {
+            await createAcademicGroups(academic)
+            await loadAcademicGroups();
+            setIsAdding(false);
+        } catch (error) {
+            console.log('Error adding academic group');
+        }
+    }
+
 
     return (
         <div>
             {/* Contenedor Principal que podría volverse borroso */}
-            <div className={isEditing ? "blur-background" : ""}>
+            <div className={(isEditing || isAdding ) ? "blur-background" : ""}>
                 <ContentHeader title="Grupos Academicos" />
                 <section className="content">
                     <div className="container-fluid">
                         <div className="card">
-                            <div className="card-header">
-                                <h3 className="card-title">Lista de Grupos Academicos</h3>
+                            <div className="card-header d-flex justify-content-between align-items-center">
+                                <div className="p-0">
+                                    <h3 className="card-title">Lista de Grupos Academicos</h3>
+                                </div>
+                                <div className="ml-auto">
+                                    <button className="btn btn-success" onClick={handleAddNew}>
+                                        Agregar
+                                    </button>
+                                </div>
                             </div>
                             <div className="card-body">
                                 <table className="table table-bordered">
@@ -155,6 +178,15 @@ const AcademicGroupsList = () => {
                     onSave={handleEditSubmit}
                 />
             )}
+            {isAdding && (
+                <AddAcademicGroupsModal 
+                    onClose={() => {
+                        setIsAdding(false);
+                    }}
+                    onSave={handleAddSubmit}
+                />
+            )
+            }
         </div>
     );
 };

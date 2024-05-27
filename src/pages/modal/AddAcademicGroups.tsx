@@ -1,27 +1,38 @@
-import { SubjectsInterface } from '@app/services/subjects/subjects-provider';
 import React, { useState, useEffect } from 'react';
 import { fetchTeacher } from '@app/services/users/users-provider';
-import { Teacher } from '@app/services/academic-groups/academic-groups';
+import { AcademicGroupsInterface, Teacher } from '@app/services/academic-groups/academic-groups';
 
-
-interface AddSubjectModalProps {
+interface AddAcademicGroupsModalProps {
     onClose: () => void;
-    onSave: (newData: Partial<SubjectsInterface>) => void;
+    onSave: (newData: Partial<AcademicGroupsInterface>) => void;
 }
 
-const AddSubjectModal: React.FC<AddSubjectModalProps> = ({ onClose, onSave }) => {
+const degreesOptions = [
+    { value: 1, label: "Primero" },
+    { value: 2, label: "Segundo" },
+    { value: 3, label: "Tercero" },
+    { value: 4, label: "Cuarto" },
+    { value: 5, label: "Quinto" },
+    { value: 6, label: "Sexto" },
+    { value: 7, label: "Séptimo" },
+    { value: 8, label: "Octavo" },
+    { value: 9, label: "Noveno" },
+    { value: 10, label: "Décimo" },
+    { value: 11, label: "Once" },
+];
+
+const AddAcademicGroupsModal: React.FC<AddAcademicGroupsModalProps> = ({ onClose, onSave }) => {
     const [name, setName] = useState<string>('');
-    const [description, setDescription] = useState<string>('');
-    const [credis, setCredis] = useState<string>('');
-    const [hours, setHours] = useState<string>('');
-    const [teacher, setTeacher] = useState<string>('');
-    const [teachers, setTeachers] = useState<Teacher[]>([]);
+    const [code, setCode] = useState<string>('');
+    const [degress, setDegress] = useState<string>('');
+    const [teachers, setTeachers] = useState<string[]>([]);
+    const [allTeachers, setAllTeachers] = useState<Teacher[]>([]);
 
     useEffect(() => {
         const loadTeachers = async () => {
             try {
                 const response = await fetchTeacher();
-                setTeachers(response.data.results);
+                setAllTeachers(response.data.results);
             } catch (error) {
                 console.error('Error loading teachers:', error);
             }
@@ -32,21 +43,24 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({ onClose, onSave }) =>
     const handleSubmit = () => {
         const newSubject = {
             name,
-            description,
-            credis: parseInt(credis),
-            hours,
-            teacher: parseInt(teacher)
+            code,
+            degress: parseInt(degress),
+            teachers: teachers.map((teacher) => parseInt(teacher))
         };
         onSave(newSubject);
     };
 
+    const handleTeacherChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedTeachers = Array.from(e.target.selectedOptions, option => option.value);
+        setTeachers(selectedTeachers);
+    };
 
     return (
         <div className="modal show" style={{ display: 'block' }}>
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Agregar Nueva Asignatura</h5>
+                        <h5 className="modal-title">Agregar nuevo Grupo Academico</h5>
                         <button type="button" className="close" onClick={onClose}>
                             <span>&times;</span>
                         </button>
@@ -62,42 +76,39 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({ onClose, onSave }) =>
                             />
                         </div>
                         <div className="form-group">
-                            <label>Descripcion</label>
+                            <label>Code</label>
                             <input 
                                 type="text" 
                                 className="form-control" 
-                                value={description} 
-                                onChange={(e) => setDescription(e.target.value)} 
+                                value={code} 
+                                onChange={(e) => setCode(e.target.value)} 
                             />
                         </div>
                         <div className="form-group">
-                            <label>Creditos</label>
-                            <input 
-                                type="number" 
-                                className="form-control" 
-                                value={credis} 
-                                onChange={(e) => setCredis(e.target.value)} 
-                            />
+                            <label>Grado</label>
+                            <select
+                                className="form-control"
+                                value={degress}
+                                onChange={(e) => setDegress(e.target.value)}
+                            >
+                                <option value="">Selecione un grado</option>
+                                {degreesOptions.map((option) => (
+                                    <option key={option.value} value={option.value.toString()}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="form-group">
-                            <label>Horas</label>
-                            <input 
-                                type="text" 
-                                className="form-control" 
-                                value={hours} 
-                                onChange={(e) => setHours(e.target.value)} 
-                                placeholder='HH:MM:SS'
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>Profesor</label>
+                            <label>Profesor(es)</label>
                             <select 
                                 className="form-control" 
-                                value={teacher} 
-                                onChange={(e) => setTeacher(e.target.value)}
+                                multiple
+                                value={teachers} 
+                                onChange={handleTeacherChange}
                             >
-                                <option value="">Seleccione un profesor</option>
-                                {teachers.map((teacher) => (
+                                <option value="">Seleccione a los profesores</option>
+                                {allTeachers.map((teacher) => (
                                     <option key={teacher.id} value={teacher.id}>
                                         {teacher.user.get_full_name}
                                     </option>
@@ -115,4 +126,4 @@ const AddSubjectModal: React.FC<AddSubjectModalProps> = ({ onClose, onSave }) =>
     );
 };
 
-export default AddSubjectModal;
+export default AddAcademicGroupsModal;

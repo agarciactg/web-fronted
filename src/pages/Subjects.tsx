@@ -103,7 +103,7 @@ const SubjectsList: React.FC = () => {
                                             <th>Profesor</th>
                                             <th>Creditos</th>
                                             <th>Horas</th>
-                                            <th>Descripcion</th>
+                                            <th className="description">Descripcion</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -115,7 +115,7 @@ const SubjectsList: React.FC = () => {
                                                 <td>{subject.teacher.user.get_full_name}</td>
                                                 <td>{subject.credis}</td>
                                                 <td>{subject.hours}</td>
-                                                <td>{subject.description}</td>
+                                                <td className="description">{subject.description}</td>
                                                 <td>
                                                     <button
                                                         className="btn btn-primary btn-sm"
