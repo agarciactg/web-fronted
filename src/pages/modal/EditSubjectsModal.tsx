@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubjectsInterface } from '@app/services/subjects/subjects-provider';
-
+import { Teacher } from '@app/services/academic-groups/academic-groups';
+import { fetchTeacher } from '@app/services/users/users-provider';
 
 interface EditSubjectsModalProps {
   subjects: SubjectsInterface | null;
@@ -9,13 +10,25 @@ interface EditSubjectsModalProps {
 }
 
 const EditSubjectModal: React.FC<EditSubjectsModalProps> = ({ subjects, onClose, onSave }) => {
-  const [name, setName] = useState<string | undefined>(undefined);
-  const [credis, setCredis] = useState<number | undefined>(undefined);
-  const [hours, setHours] = useState<string | undefined>(undefined);
-  const [description, setDescription] = useState<string | undefined>(undefined);
-  const [teacher, setTeacher] = useState<any | undefined>(undefined);
+  const [name, setName] = useState<string | undefined>(subjects?.name);
+  const [credis, setCredis] = useState<number | undefined>(subjects?.credis);
+  const [hours, setHours] = useState<string | undefined>(subjects?.hours);
+  const [description, setDescription] = useState<string | undefined>(subjects?.description);
+  const [teacher, setTeacher] = useState<any | undefined>(subjects?.teacher);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
 
-  // Manejar el guardado de los cambios
+  useEffect(() => {
+    const loadTeachers = async () => {
+      try {
+        const response = await fetchTeacher();
+        setTeachers(response.data.results);
+      } catch (error) {
+        console.error('Error loading teachers:', error);
+      }
+    };
+    loadTeachers();
+  }, []);
+
   const handleSave = () => {
     const updatedData: Partial<Omit<SubjectsInterface, 'id'>> = {};
     if (name !== undefined) updatedData.name = name;
@@ -27,7 +40,7 @@ const EditSubjectModal: React.FC<EditSubjectsModalProps> = ({ subjects, onClose,
     onSave(updatedData);
   };
 
-  if (!subjects) return null;  // No renderizar si no hay usuario
+  if (!subjects) return null;
 
   return (
     <div className="modal" style={{ display: 'block' }}>
@@ -47,18 +60,18 @@ const EditSubjectModal: React.FC<EditSubjectsModalProps> = ({ subjects, onClose,
                   type="text"
                   className="form-control"
                   id="name"
-                  value={name ?? subjects.name}
+                  value={name}
                   onChange={e => setName(e.target.value)}
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="teacher">Profesor</label>
+                <label htmlFor="description">Descripcion</label>
                 <input
                   type="text"
                   className="form-control"
-                  id="teacher"
-                  value={teacher ?? subjects.teacher}
-                  onChange={e => setTeacher(e.target.value)}
+                  id="description"
+                  value={description}
+                  onChange={e => setDescription(e.target.value)}
                 />
               </div>
               <div className="form-group">
@@ -67,7 +80,7 @@ const EditSubjectModal: React.FC<EditSubjectsModalProps> = ({ subjects, onClose,
                   type="text"
                   className="form-control"
                   id="credis"
-                  value={credis ?? subjects.credis}
+                  value={credis}
                   onChange={e => setCredis(parseInt(e.target.value))}
                 />
               </div>
@@ -77,19 +90,24 @@ const EditSubjectModal: React.FC<EditSubjectsModalProps> = ({ subjects, onClose,
                   type="text"
                   className="form-control"
                   id="hours"
-                  value={hours ?? subjects.hours}
+                  value={hours}
                   onChange={e => setHours(e.target.value)}
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="description">Descripcion</label>
-                <input
-                  type="text"
+                <label>Profesor</label>
+                <select
                   className="form-control"
-                  id="description"
-                  value={description ?? subjects.description}
-                  onChange={e => setDescription(e.target.value)}
-                />
+                  value={teacher?.id ?? ''}
+                  onChange={(e) => setTeacher(e.target.value)}
+                >
+                  <option value="">Seleccione un profesor</option>
+                  {teachers.map((teacher) => (
+                    <option key={teacher.id} value={teacher.id}>
+                      {teacher.user.get_full_name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </form>
           </div>
