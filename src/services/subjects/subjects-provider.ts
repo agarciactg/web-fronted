@@ -39,10 +39,11 @@ export const fetchSubjects = async (): Promise<SubjectsResponse> => {
   return response.data;
 };
 
-// export const createUser = async (user: Omit<SubjectsInterface, 'id'>): Promise<SubjectsInterface> => {
-//   const response = await axios.post<SubjectsInterface>(API_URL, user);
-//   return response.data;
-// };
+export const createSubjects = async (subjects: Partial<SubjectsInterface>): Promise<any> => {
+  const API_URL = baseUrl + 'subject/create/'
+  const response = await axios.post<SubjectsInterface>(API_URL, subjects, { headers });
+  return response.data;
+};
 
 export const updateSubjects = async (id: number, updatedUser: Partial<Omit<SubjectsInterface, 'id'>>): Promise<SubjectsInterface> => {
   const API_URL = `${baseUrl}subject/actions/${id}/`

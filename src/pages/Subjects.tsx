@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { ContentHeader } from '@components';
 import axios from 'axios';
 import { headers } from '@app/utils/apiConfig';
-import './ModalStyles.css'
-import { deleteSubjects, detailSubjects, fetchSubjects, SubjectsInterface, SubjectsResponse, updateSubjects } from '@app/services/subjects/subjects-provider';
+import './ModalStyles.css';
+import { createSubjects, deleteSubjects, detailSubjects, fetchSubjects, SubjectsInterface, SubjectsResponse, updateSubjects } from '@app/services/subjects/subjects-provider';
 import EditSubjectModal from './modal/EditSubjectsModal';
+import AddSubjectModal from './modal/AddSubjectModal';
 
-
-const SubjectsList = () => {
+const SubjectsList: React.FC = () => {
     const [subjects, setSubjects] = useState<SubjectsInterface[]>([]);
     const [nextPage, setNextPage] = useState<string | null>(null);
     const [previusPage, setPreviousPage] = useState<string | null>(null);
     const [editingSubjects, setEditingSubjects] = useState<SubjectsInterface | null>(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [isAdding, setIsAdding] = useState(false);
 
     useEffect(() => {
         loadSubjects();
@@ -32,13 +33,12 @@ const SubjectsList = () => {
             setNextPage(response.data.data.next);
             setPreviousPage(response.data.data.previous);
         }
-    }
+    };
 
     const handlePreviousPage = async () => {
         if (previusPage) {
             const response = await axios.get<SubjectsResponse>(previusPage, { headers });
             setSubjects(response.data.data.results);
-
             setNextPage(response.data.data.next);
             setPreviousPage(response.data.data.previous);
         }
@@ -48,33 +48,51 @@ const SubjectsList = () => {
         const detailResponse = await detailSubjects(id);
         setEditingSubjects(detailResponse.data);
         setIsEditing(true);
-    }
+    };
 
     const handleEditSubmit = async (updatedData: Partial<Omit<SubjectsInterface, 'id'>>) => {
         if (!editingSubjects) return;
         const updatedSubjects = await updateSubjects(editingSubjects.id, updatedData);
-        // setSubjects(prevUsers => prevUsers.map(user => user.id === editingUser.id ? { ...user, ...updatedUser } : user));
         await loadSubjects();
         setIsEditing(false);
         setEditingSubjects(null);
-    }
+    };
 
     const handleDelete = async (id: number) => {
         const deleteData: SubjectsInterface = await deleteSubjects(id);
         await loadSubjects();
     };
 
+    const handleAddNew = () => {
+        setIsAdding(true);
+    };
+
+    const handleAddSubmit = async (subject: Partial<SubjectsInterface>): Promise<void> => {
+        try {
+            await createSubjects(subject);
+            await loadSubjects();
+            setIsAdding(false);
+        } catch (error) {
+            console.error('Error adding subject:', error);
+        }
+    };
 
     return (
         <div>
-            {/* Contenedor Principal que podría volverse borroso */}
-            <div className={isEditing ? "blur-background" : ""}>
+            <div className={(isEditing || isAdding) ? "blur-background" : ""}>
                 <ContentHeader title="Asignaturas" />
                 <section className="content">
                     <div className="container-fluid">
                         <div className="card">
-                            <div className="card-header">
-                                <h3 className="card-title">Lista de Asignaturas</h3>
+                            <div className="card-header d-flex justify-content-between align-items-center">
+                                <div className="p-0">
+                                    <h3 className="card-title">Lista de Asignaturas</h3>
+                                </div>
+                                <div className="ml-auto">
+                                    <button className="btn btn-success" onClick={handleAddNew}>
+                                        Agregar
+                                    </button>
+                                </div>
                             </div>
                             <div className="card-body">
                                 <table className="table table-bordered">
@@ -139,18 +157,25 @@ const SubjectsList = () => {
                     </div>
                 </section>
             </div>
-            {/* Modal que no se ve afectado por el desenfoque */}
             {isEditing && editingSubjects && (
                 <EditSubjectModal
                     subjects={editingSubjects}
                     onClose={() => {
                         setIsEditing(false);
-                        // Remueve el desenfoque si necesitas ajustar el UI
                     }}
                     onSave={handleEditSubmit}
+                />
+            )}
+            {isAdding && (
+                <AddSubjectModal
+                    onClose={() => {
+                        setIsAdding(false);
+                    }}
+                    onSave={handleAddSubmit}
                 />
             )}
         </div>
     );
 };
+
 export default SubjectsList;
