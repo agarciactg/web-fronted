@@ -15,6 +15,7 @@ export interface AcademicGroupsInterface {
   id: number;
   teachers: Teacher[];
   degress_display: string;
+  degress: string;
   name: string;
   code: string | null;
 }

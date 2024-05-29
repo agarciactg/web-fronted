@@ -24,6 +24,14 @@ export interface EnrollmentInterface {
     date_created: string
 }
 
+export interface EnrollmentEditInterface {
+  id: number,
+  academic_groups: number,
+  subjects: number[],
+  student: number,
+  date_created: string
+}
+
 export interface EnrollmentResponse {
     code_transaction: string;
     data: {
@@ -53,7 +61,7 @@ export const fetchEnrollment = async (): Promise<EnrollmentResponse> => {
 
 export const updatedEnrollment = async (id: number, updatedEnrollment: Partial<Omit<EnrollmentInterface, 'id'>>): Promise<EnrollmentInterface> => {
   const API_URL = `${baseUrl}enrollment/actions/${id}/` 
-  const response = await axios.post<EnrollmentInterface>(API_URL, updatedEnrollment, { headers });
+  const response = await axios.put<EnrollmentInterface>(API_URL, updatedEnrollment, { headers });
   return response.data;
 }
 

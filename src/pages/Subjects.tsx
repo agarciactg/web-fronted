@@ -52,7 +52,7 @@ const SubjectsList: React.FC = () => {
 
     const handleEditSubmit = async (updatedData: Partial<Omit<SubjectsInterface, 'id'>>) => {
         if (!editingSubjects) return;
-        const updatedSubjects = await updateSubjects(editingSubjects.id, updatedData);
+        await updateSubjects(editingSubjects.id, updatedData);
         await loadSubjects();
         setIsEditing(false);
         setEditingSubjects(null);

@@ -1,25 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { fetchTeacher } from '@app/services/users/users-provider';
 import { AcademicGroupsInterface, Teacher } from '@app/services/academic-groups/academic-groups';
+import { degreesOptions } from '@app/utils/constant';
 
 interface AddAcademicGroupsModalProps {
     onClose: () => void;
     onSave: (newData: Partial<AcademicGroupsInterface>) => void;
 }
-
-const degreesOptions = [
-    { value: 1, label: "Primero" },
-    { value: 2, label: "Segundo" },
-    { value: 3, label: "Tercero" },
-    { value: 4, label: "Cuarto" },
-    { value: 5, label: "Quinto" },
-    { value: 6, label: "Sexto" },
-    { value: 7, label: "Séptimo" },
-    { value: 8, label: "Octavo" },
-    { value: 9, label: "Noveno" },
-    { value: 10, label: "Décimo" },
-    { value: 11, label: "Once" },
-];
 
 const AddAcademicGroupsModal: React.FC<AddAcademicGroupsModalProps> = ({ onClose, onSave }) => {
     const [name, setName] = useState<string>('');
@@ -28,6 +15,7 @@ const AddAcademicGroupsModal: React.FC<AddAcademicGroupsModalProps> = ({ onClose
     const [teachers, setTeachers] = useState<string[]>([]);
     const [allTeachers, setAllTeachers] = useState<Teacher[]>([]);
 
+    // get list of teachers
     useEffect(() => {
         const loadTeachers = async () => {
             try {

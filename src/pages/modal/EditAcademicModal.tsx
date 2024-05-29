@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { User } from '@app/services/users/users-provider';
 import { AcademicGroupsInterface, Teacher } from '@app/services/academic-groups/academic-groups';
+import { degreesOptions } from '@app/utils/constant';
 
 interface EditAcademicModalProps {
   academic: AcademicGroupsInterface | null;
@@ -12,6 +13,7 @@ const EditAcademicModal: React.FC<EditAcademicModalProps> = ({ academic, onClose
   const [name, setName] = useState<string | undefined>(undefined);
   const [code, setCode] = useState<string | undefined>(undefined);
   const [degress_display, setDegressDisplay] = useState<string | undefined>(undefined);
+  const [degress, setDegress] = useState<string | undefined>(undefined);
   const [teachers, setTeachers] = useState<Teacher[] | undefined>(undefined);
   const [selectTeacherId, setSelectTeacherId] = useState<number | null>(null);
 
@@ -21,7 +23,7 @@ const EditAcademicModal: React.FC<EditAcademicModalProps> = ({ academic, onClose
     const updatedData: Partial<Omit<AcademicGroupsInterface, 'id'>> = {};
     if (name !== undefined) updatedData.name = name;
     if (code !== undefined) updatedData.code = code;
-    if (degress_display !== undefined) updatedData.degress_display = degress_display;
+    if (degress !== undefined) updatedData.degress = degress;
     if (teachers !== undefined) updatedData.teachers = teachers;
 
     onSave(updatedData);
@@ -62,29 +64,34 @@ const EditAcademicModal: React.FC<EditAcademicModalProps> = ({ academic, onClose
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="degress_display">Grado</label>
-                <input
-                  type="text"
+                <label>Grado</label>
+                <select
                   className="form-control"
-                  id="degress_display"
-                  value={degress_display ?? academic.degress_display}
-                  onChange={e => setDegressDisplay(e.target.value)}
-                />
+                  value={degress}
+                  onChange={(e) => setDegress(e.target.value)}
+                >
+                  <option value="">Selecione un grado</option>
+                  {degreesOptions.map((option) => (
+                    <option key={option.value} value={option.value.toString()}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="form-group">
                 <label htmlFor="teachers">Profesores</label>
-                <select 
-                    className="form-control"
-                    id="teachers"
-                    value={selectTeacherId ?? ''}
-                    onChange={e => setSelectTeacherId(Number(e.target.value))}
+                <select
+                  className="form-control"
+                  id="teachers"
+                  value={selectTeacherId ?? ''}
+                  onChange={e => setSelectTeacherId(Number(e.target.value))}
                 >
-                    <option value="">....</option>
-                    {academic.teachers.map((teacher) => (
-                        <option key={teacher.id} value={teacher.id}>
-                            {teacher.user.get_full_name}
-                        </option>
-                    ))}
+                  <option value="">....</option>
+                  {academic.teachers.map((teacher) => (
+                    <option key={teacher.id} value={teacher.id}>
+                      {teacher.user.get_full_name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </form>
