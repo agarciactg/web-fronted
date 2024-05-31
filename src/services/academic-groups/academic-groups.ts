@@ -42,7 +42,7 @@ export const detailAcademicGroups = async (id: number): Promise<AcademicGroupsDe
   return response.data;
 };
 
-export const fetchAcademicGroups = async (): Promise<AcademicGroupsResponse> => {
+export const fetchAcademicGroups = async (): Promise<any> => {
   const API_URL = baseUrl + 'academic_groups/list/'
   const response = await axios.get<AcademicGroupsResponse>(API_URL, { headers });
   return response.data;

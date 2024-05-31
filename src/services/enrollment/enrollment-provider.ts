@@ -59,6 +59,12 @@ export const fetchEnrollment = async (): Promise<EnrollmentResponse> => {
     return response.data;
 }
 
+export const createEnrollment = async (enrollment: Partial<EnrollmentInterface>): Promise<any> => {
+  const API_URL = baseUrl + 'enrollment/create/'
+  const response = await axios.post<EnrollmentInterface>(API_URL, enrollment, { headers });
+  return response.data;
+};
+
 export const updatedEnrollment = async (id: number, updatedEnrollment: Partial<Omit<EnrollmentInterface, 'id'>>): Promise<EnrollmentInterface> => {
   const API_URL = `${baseUrl}enrollment/actions/${id}/` 
   const response = await axios.put<EnrollmentInterface>(API_URL, updatedEnrollment, { headers });

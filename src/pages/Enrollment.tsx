@@ -1,10 +1,11 @@
 import { ContentHeader } from "@app/components"
-import { deleteEnrollment, detailEnrollment, EnrollmentInterface, EnrollmentResponse, fetchEnrollment, updatedEnrollment } from "@app/services/enrollment/enrollment-provider";
+import { createEnrollment, deleteEnrollment, detailEnrollment, EnrollmentInterface, EnrollmentResponse, fetchEnrollment, updatedEnrollment } from "@app/services/enrollment/enrollment-provider";
 import { headers } from "@app/utils/apiConfig";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import EditEnrollmentModal from "./modal/EditEnrolModal";
 import './ModalStyles.css'
+import AddEnrollmentModal from "./modal/AddEnrollmentModal";
 
 const Enrollment = () => {
     // states
@@ -12,8 +13,9 @@ const Enrollment = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [nextPage, setNextPage] = useState<string | null>(null);
     const [previusPage, setPreviusPage] = useState<string | null>(null);
-    const [editingEnrollment, setEditingEnrollment] = useState<EnrollmentInterface  | null>();
-    
+    const [editingEnrollment, setEditingEnrollment] = useState<EnrollmentInterface | null>();
+    const [isAdding, setIsAdding] = useState(false);
+
     useEffect(() => {
         loadEnrollments();
     }, []);
@@ -43,18 +45,18 @@ const Enrollment = () => {
         }
     }
 
-    const handleEditSubmit = async (updatedData: Partial<Omit<EnrollmentInterface, 'id'>>) => {
-        if (!editingEnrollment) return;
-        await updatedEnrollment(editingEnrollment.id, updatedData);
-        await loadEnrollments;
-        setIsEditing(false);
-        setEditingEnrollment(null);
-    }
-
     const handleEditInit = async (id: number) => {
         const detailResponse = await detailEnrollment(id);
         setEditingEnrollment(detailResponse.data);
         setIsEditing(true);
+    }
+
+    const handleEditSubmit = async (updatedData: Partial<Omit<EnrollmentInterface, 'id'>>) => {
+        if (!editingEnrollment) return;
+        await updatedEnrollment(editingEnrollment.id, updatedData);
+        await loadEnrollments();
+        setIsEditing(false);
+        setEditingEnrollment(null);
     }
 
     const handleDelete = async (id: number) => {
@@ -62,16 +64,38 @@ const Enrollment = () => {
         await loadEnrollments();
     }
 
+    const handleAddNew = () => {
+        setIsAdding(true);
+    };
+
+    const handleAddSubmit = async (enroll: Partial<EnrollmentInterface>): Promise<void> => {
+        try {
+            await createEnrollment(enroll);
+            await loadEnrollments();
+            setIsAdding(false);
+        } catch (error) {
+            console.log('Error adding enrollment', error);
+        }
+    }
+
+    // TODO: Hacer el agregar de matriculas
     return (
         <div>
             {/* Contenedor Principal que podría volverse borroso */}
-            <div className={isEditing ? "blur-background" : ""}>
+            <div className={(isEditing || isAdding) ? "blur-background" : ""}>
                 <ContentHeader title="Matriculas" />
                 <section className="content">
                     <div className="container-fluid">
                         <div className="card">
-                            <div className="card-header">
-                                <h3 className="card-title">Lista de Matriculas</h3>
+                            <div className="card-header d-flex justify-content-between align-items-center">
+                                <div className="p-0">
+                                    <h3 className="card-title">Lista de Matriculas</h3>
+                                </div>
+                                <div className="ml-auto">
+                                    <button className="btn btn-success" onClick={handleAddNew}>
+                                        Agregar
+                                    </button>
+                                </div>
                             </div>
                             <div className="card-body">
                                 <table className="table table-bordered">
@@ -143,6 +167,14 @@ const Enrollment = () => {
                         // Remueve el desenfoque si necesitas ajustar el UI
                     }}
                     onSave={handleEditSubmit}
+                />
+            )}
+            {isAdding && (
+                <AddEnrollmentModal
+                    onClose={() => {
+                        setIsAdding(false);
+                    }}
+                    onSave={handleAddSubmit}
                 />
             )}
         </div>

@@ -65,7 +65,7 @@ const UsersList = () => {
     await loadUsers();
   };
 
-
+  //TODO: Agregar usuarios
   return (
     <div>
       {/* Contenedor Principal que podría volverse borroso */}
@@ -74,8 +74,15 @@ const UsersList = () => {
         <section className="content">
           <div className="container-fluid">
             <div className="card">
-              <div className="card-header">
-                <h3 className="card-title">Lista de usuarios</h3>
+              <div className="card-header d-flex justify-content-between align-items-center">
+                <div className="p-0">
+                  <h3 className="card-title">Lista de Usuarios</h3>
+                </div>
+                <div className="ml-auto">
+                  <button className="btn btn-success" onClick={<></>}>
+                    Agregar
+                  </button>
+                </div>
               </div>
               <div className="card-body">
                 <table className="table table-bordered">

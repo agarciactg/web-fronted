@@ -45,6 +45,12 @@ export const fetchUsers = async (): Promise<UsersResponse> => {
   return response.data;
 };
 
+export const fetchTypeUsers = async (type_users: any): Promise<UsersResponse> => {
+  const API_URL = baseUrl + 'users/select/list/'
+  const response = await axios.post<UsersResponse>(API_URL, type_users, { headers });
+  return response.data;
+};
+
 export const fetchTeacher = async (): Promise<any> => {
   const API_URL = baseUrl + 'teachers/list/'
   const response = await axios.get<any>(API_URL, { headers });
