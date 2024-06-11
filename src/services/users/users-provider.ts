@@ -1,7 +1,6 @@
 import { apiKey, baseUrl, headers } from '@app/utils/apiConfig';
 import axios from 'axios';
 
-const API_URL = 'https://example.com/api/users';
 
 export interface User {
   id: number;
@@ -57,8 +56,9 @@ export const fetchTeacher = async (): Promise<any> => {
   return response.data;
 };
 
-export const createUser = async (user: Omit<User, 'id'>): Promise<User> => {
-  const response = await axios.post<User>(API_URL, user);
+export const createUser = async (user: Partial<User>): Promise<User> => {
+  const API_URL = baseUrl + 'users/create/'
+  const response = await axios.post<User>(API_URL, user, { headers });
   return response.data;
 };
 

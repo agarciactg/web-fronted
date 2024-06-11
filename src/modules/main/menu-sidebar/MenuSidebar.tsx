@@ -21,14 +21,14 @@ export const MENU_ADMIN: IMenuItem[] = [
     path: '/',
   },
   {
-    name: i18n.t('menusidebar.label.enrollment'),
-    icon: 'fa fa-users nav-icon',
-    path: '/enrollment',
-  },
-  {
     name: i18n.t('menusidebar.label.users'),
     icon: 'fa fa-list nav-icon',
     path: '/users',
+  },
+  {
+    name: 'Asignaturas',
+    icon: 'fa fa-book nav-icon',
+    path: '/subjects',
   },
   {
     name: 'Grupos Academicos',
@@ -36,9 +36,9 @@ export const MENU_ADMIN: IMenuItem[] = [
     path: '/academic-groups',
   },
   {
-    name: 'Asignaturas',
-    icon: 'fa fa-book nav-icon',
-    path: '/subjects',
+    name: i18n.t('menusidebar.label.enrollment'),
+    icon: 'fa fa-users nav-icon',
+    path: '/enrollment',
   },
   // {
   //   name: i18n.t('menusidebar.label.mainMenu'),

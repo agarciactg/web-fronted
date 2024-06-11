@@ -78,7 +78,6 @@ const Enrollment = () => {
         }
     }
 
-    // TODO: Hacer el agregar de matriculas
     return (
         <div>
             {/* Contenedor Principal que podría volverse borroso */}

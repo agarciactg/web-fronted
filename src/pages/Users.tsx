@@ -5,6 +5,7 @@ import axios from 'axios';
 import { headers } from '@app/utils/apiConfig';
 import EditUserModal from './modal/EditUserModal';
 import './ModalStyles.css'
+import AddUsersModal from './modal/AddUsersModal';
 
 
 const UsersList = () => {
@@ -13,6 +14,7 @@ const UsersList = () => {
   const [previusPage, setPreviousPage] = useState<string | null>(null);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
 
 
   useEffect(() => {
@@ -61,15 +63,29 @@ const UsersList = () => {
   }
 
   const handleDelete = async (id: number) => {
-    const deleteData: User = await deleteUser(id);
+    await deleteUser(id);
     await loadUsers();
   };
+
+  const handleAddNew = () => {
+    setIsAdding(true);
+  };
+
+  const handleAddSubmit = async (user: Partial<User>): Promise<void> => {
+    try {
+      await createUser(user);
+      await loadUsers();
+      setIsAdding(false);
+    } catch (error) {
+      console.log('Error adding users', error);
+    }
+  }
 
   //TODO: Agregar usuarios
   return (
     <div>
       {/* Contenedor Principal que podría volverse borroso */}
-      <div className={isEditing ? "blur-background" : ""}>
+      <div className={(isEditing || isAdding) ? "blur-background" : ""}>
         <ContentHeader title="Usuarios" />
         <section className="content">
           <div className="container-fluid">
@@ -79,7 +95,7 @@ const UsersList = () => {
                   <h3 className="card-title">Lista de Usuarios</h3>
                 </div>
                 <div className="ml-auto">
-                  <button className="btn btn-success" onClick={<></>}>
+                  <button className="btn btn-success" onClick={handleAddNew}>
                     Agregar
                   </button>
                 </div>
@@ -126,7 +142,7 @@ const UsersList = () => {
                     ))}
                   </tbody>
                 </table>
-                <br/>
+                <br />
                 <div>
                   <button
                     className="btn btn-secondary"
@@ -160,6 +176,15 @@ const UsersList = () => {
           onSave={handleEditSubmit}
         />
       )}
+      {isAdding && (
+        <AddUsersModal
+          onClose={() => {
+            setIsAdding(false);
+          }}
+          onSave={handleAddSubmit}
+        />
+        )
+      }
     </div>
   );
 };

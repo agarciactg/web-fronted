@@ -87,9 +87,9 @@ const Dashboard: React.FC = () => {
         return (
           <>
             <UserModule />
-            <EnrollmentModule />
-            <AcademicGroupsModule />
             <SubjectsModule />
+            <AcademicGroupsModule />
+            <EnrollmentModule />
           </>
         );
       case "estudiantes":
