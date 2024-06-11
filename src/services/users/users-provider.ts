@@ -1,7 +1,6 @@
 import { apiKey, baseUrl, headers } from '@app/utils/apiConfig';
 import axios from 'axios';
 
-
 export interface User {
   id: number;
   type_user: string;
@@ -29,47 +28,57 @@ export interface UsersResponse {
 
 export interface UserDetail {
   code_transaction: string;
-  data: User
+  data: User;
 }
 
+const API_URL = `${baseUrl}users/`;
+
+const handleRequest = async <T>(request: Promise<any>): Promise<T> => {
+  try {
+    const response = await request;
+    return response.data;
+  } catch (error) {
+    console.error('API request error:', error);
+    throw error;
+  }
+};
+
 export const detailUser = async (id: number): Promise<UserDetail> => {
-  const API_URL = `${baseUrl}users/actions/${id}/`
-  const response = await axios.get<UserDetail>(API_URL, { headers });
-  return response.data;
+  const request = axios.get<UserDetail>(`${API_URL}actions/${id}/`, { headers });
+  return handleRequest<UserDetail>(request);
 };
 
 export const fetchUsers = async (): Promise<UsersResponse> => {
-  const API_URL = baseUrl + 'users/list/'
-  const response = await axios.get<UsersResponse>(API_URL, { headers });
-  return response.data;
+  const request = axios.get<UsersResponse>(`${API_URL}list/`, { headers });
+  return handleRequest<UsersResponse>(request);
 };
 
 export const fetchTypeUsers = async (type_users: any): Promise<UsersResponse> => {
-  const API_URL = baseUrl + 'users/select/list/'
-  const response = await axios.post<UsersResponse>(API_URL, type_users, { headers });
-  return response.data;
+  const request = axios.post<UsersResponse>(`${API_URL}select/list/`, type_users, { headers });
+  return handleRequest<UsersResponse>(request);
 };
 
 export const fetchTeacher = async (): Promise<any> => {
-  const API_URL = baseUrl + 'teachers/list/'
-  const response = await axios.get<any>(API_URL, { headers });
-  return response.data;
+  const request = axios.get<any>(`${baseUrl}teachers/list/`, { headers });
+  return handleRequest<any>(request);
 };
 
 export const createUser = async (user: Partial<User>): Promise<User> => {
-  const API_URL = baseUrl + 'users/create/'
-  const response = await axios.post<User>(API_URL, user, { headers });
-  return response.data;
+  const request = axios.post<User>(`${API_URL}create/`, user, { headers });
+  return handleRequest<User>(request);
+};
+
+export const createUserTeacher = async (user: Partial<User>): Promise<User> => {
+  const request = axios.post<User>(`${baseUrl}teacher/create/`, user, { headers });
+  return handleRequest<User>(request);
 };
 
 export const updateUser = async (id: number, updatedUser: Partial<Omit<User, 'id'>>): Promise<User> => {
-  const API_URL = `${baseUrl}users/actions/${id}/`
-  const response = await axios.put<User>(API_URL, updatedUser, { headers });
-  return response.data;
+  const request = axios.put<User>(`${API_URL}actions/${id}/`, updatedUser, { headers });
+  return handleRequest<User>(request);
 };
 
 export const deleteUser = async (id: number): Promise<User> => {
-  const API_URL = `${baseUrl}users/actions/${id}/`
-  const response = await axios.delete<User>(API_URL, { headers });
-  return response.data;
+  const request = axios.delete<User>(`${API_URL}actions/${id}/`, { headers });
+  return handleRequest<User>(request);
 };

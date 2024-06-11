@@ -2,20 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { ContentHeader } from '@components';
 import { createUser, deleteUser, detailUser, fetchUsers, updateUser, User, UsersResponse } from '@app/services/users/users-provider';
 import axios from 'axios';
-import { headers } from '@app/utils/apiConfig';
+import { headers, baseUrl } from '@app/utils/apiConfig';
 import EditUserModal from './modal/EditUserModal';
-import './ModalStyles.css'
+import './ModalStyles.css';
 import AddUsersModal from './modal/AddUsersModal';
-
 
 const UsersList = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [nextPage, setNextPage] = useState<string | null>(null);
-  const [previusPage, setPreviousPage] = useState<string | null>(null);
+  const [previousPage, setPreviousPage] = useState<string | null>(null);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
-
 
   useEffect(() => {
     loadUsers();
@@ -35,13 +33,12 @@ const UsersList = () => {
       setNextPage(response.data.data.next);
       setPreviousPage(response.data.data.previous);
     }
-  }
+  };
 
   const handlePreviousPage = async () => {
-    if (previusPage) {
-      const response = await axios.get<UsersResponse>(previusPage, { headers });
+    if (previousPage) {
+      const response = await axios.get<UsersResponse>(previousPage, { headers });
       setUsers(response.data.data.results);
-
       setNextPage(response.data.data.next);
       setPreviousPage(response.data.data.previous);
     }
@@ -51,16 +48,15 @@ const UsersList = () => {
     const detailResponse = await detailUser(id);
     setEditingUser(detailResponse.data);
     setIsEditing(true);
-  }
+  };
 
   const handleEditSubmit = async (updatedData: Partial<Omit<User, 'id'>>) => {
     if (!editingUser) return;
     const updatedUser = await updateUser(editingUser.id, updatedData);
-    // setUsers(prevUsers => prevUsers.map(user => user.id === editingUser.id ? { ...user, ...updatedUser } : user));
     await loadUsers();
     setIsEditing(false);
     setEditingUser(null);
-  }
+  };
 
   const handleDelete = async (id: number) => {
     await deleteUser(id);
@@ -71,17 +67,20 @@ const UsersList = () => {
     setIsAdding(true);
   };
 
-  const handleAddSubmit = async (user: Partial<User>): Promise<void> => {
+  const handleAddSubmit = async (user: Partial<any>): Promise<void> => {
     try {
-      await createUser(user);
+      if (user.type_user === 4) { // Tipo de usuario 'Docente'
+        await axios.post(`${baseUrl}teacher/create/`, user, { headers });
+      } else {
+        await createUser(user);
+      }
       await loadUsers();
       setIsAdding(false);
     } catch (error) {
-      console.log('Error adding users', error);
+      console.log('Error adding user', error);
     }
-  }
+  };
 
-  //TODO: Agregar usuarios
   return (
     <div>
       {/* Contenedor Principal que podría volverse borroso */}
@@ -129,13 +128,13 @@ const UsersList = () => {
                             className="btn btn-primary btn-sm"
                             onClick={() => handleEditInit(user.id)}
                           >
-                            Edit
+                            Editar
                           </button>
                           <button
                             className="btn btn-danger btn-sm ml-2"
                             onClick={() => handleDelete(user.id)}
                           >
-                            Delete
+                            Eliminar
                           </button>
                         </td>
                       </tr>
@@ -147,7 +146,7 @@ const UsersList = () => {
                   <button
                     className="btn btn-secondary"
                     onClick={handlePreviousPage}
-                    disabled={!previusPage}
+                    disabled={!previousPage}
                   >
                     Anterior
                   </button>
@@ -183,9 +182,9 @@ const UsersList = () => {
           }}
           onSave={handleAddSubmit}
         />
-        )
-      }
+      )}
     </div>
   );
 };
+
 export default UsersList;

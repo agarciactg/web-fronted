@@ -1,23 +1,25 @@
-import { SubjectsInterface } from '@app/services/subjects/subjects-provider';
-import React, { useState, useEffect } from 'react';
-
+import { User } from '@app/services/users/users-provider';
+import React, { useState } from 'react';
 
 interface AddUsersModalProps {
     onClose: () => void;
-    onSave: (newData: Partial<SubjectsInterface>) => void;
+    onSave: (newData: Partial<User>) => void;
 }
 
 const AddUsersModal: React.FC<AddUsersModalProps> = ({ onClose, onSave }) => {
-    const [typeUser, setTypeUser] = useState<number>();
-    const [typeDocument, setTypeDocument] = useState<number>();
+    const [typeUser, setTypeUser] = useState<number>(0);
+    const [typeDocument, setTypeDocument] = useState<number>(0);
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
-    const [documentNumber, setDocumentNumber] = useState<string>();
+    const [documentNumber, setDocumentNumber] = useState<number | null>(null);
+    const [password, setPassword] = useState<string>('');
+    const [profession, setProfession] = useState<string>('');
+    const [isFullTime, setIsFullTime] = useState<boolean>(false);
 
     const handleSubmit = () => {
-        const newSubject = {
+        const newUser: Partial<any> = {
             type_user: typeUser,
             type_document: typeDocument,
             first_name: firstName,
@@ -26,9 +28,15 @@ const AddUsersModal: React.FC<AddUsersModalProps> = ({ onClose, onSave }) => {
             email,
             document_number: documentNumber
         };
-        onSave(newSubject);
-    };
 
+        if (typeUser === 4) { // Tipo de usuario 'Docente'
+            newUser.password = password;
+            newUser.profession = profession;
+            newUser.is_full_time = isFullTime;
+        }
+
+        onSave(newUser);
+    };
 
     return (
         <div className="modal show" style={{ display: 'block' }}>
@@ -47,7 +55,7 @@ const AddUsersModal: React.FC<AddUsersModalProps> = ({ onClose, onSave }) => {
                                 className="form-control"
                                 id="typeUser"
                                 value={typeUser}
-                                onChange={e => setTypeUser(parseInt(e.target.value))}
+                                onChange={e => setTypeUser(Number(e.target.value))}
                             >
                                 <option value="0">Administrador</option>
                                 <option value="1">Rector</option>
@@ -66,7 +74,7 @@ const AddUsersModal: React.FC<AddUsersModalProps> = ({ onClose, onSave }) => {
                                 className="form-control"
                                 id="typeDocument"
                                 value={typeDocument}
-                                onChange={e => setTypeDocument(parseInt(e.target.value))}
+                                onChange={e => setTypeDocument(Number(e.target.value))}
                             >
                                 <option value="0">Cedula de Ciudadania</option>
                                 <option value="1">Tarjeta de Identidad</option>
@@ -79,8 +87,8 @@ const AddUsersModal: React.FC<AddUsersModalProps> = ({ onClose, onSave }) => {
                             <input
                                 type="number"
                                 className="form-control"
-                                value={documentNumber}
-                                onChange={(e) => setDocumentNumber(e.target.value)}
+                                value={documentNumber ?? ''}
+                                onChange={(e) => setDocumentNumber(Number(e.target.value))}
                             />
                         </div>
                         <div className="form-group">
@@ -119,6 +127,38 @@ const AddUsersModal: React.FC<AddUsersModalProps> = ({ onClose, onSave }) => {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
+                        {typeUser === 4 && (
+                            <>
+                                <div className="form-group">
+                                    <label>Contraseña</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Profesión</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value={profession}
+                                        onChange={(e) => setProfession(e.target.value)}
+                                    />
+                                </div>
+                                <div className="form-group form-check">
+                                    <input
+                                        type="checkbox"
+                                        className="form-check-input"
+                                        id="isFullTime"
+                                        checked={isFullTime}
+                                        onChange={(e) => setIsFullTime(e.target.checked)}
+                                    />
+                                    <label className="form-check-label" htmlFor="isFullTime">¿Es tiempo completo?</label>
+                                </div>
+                            </>
+                        )}
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={onClose}>Cerrar</button>

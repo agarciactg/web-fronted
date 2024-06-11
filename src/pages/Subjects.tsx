@@ -127,7 +127,7 @@ const SubjectsList: React.FC = () => {
                                                         className="btn btn-danger btn-sm ml-2"
                                                         onClick={() => handleDelete(subject.id)}
                                                     >
-                                                        Borrar
+                                                        Eliminar
                                                     </button>
                                                 </td>
                                             </tr>

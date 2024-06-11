@@ -121,13 +121,13 @@ const Enrollment = () => {
                                                         className="btn btn-primary btn-sm"
                                                         onClick={() => handleEditInit(enrol.id)}
                                                     >
-                                                        Edit
+                                                        Editar
                                                     </button>
                                                     <button
                                                         className="btn btn-danger btn-sm ml-2"
                                                         onClick={() => handleDelete(enrol.id)}
                                                     >
-                                                        Delete
+                                                        Eliminar
                                                     </button>
                                                 </td>
                                             </tr>
@@ -141,14 +141,14 @@ const Enrollment = () => {
                                         onClick={handlePreviousPage}
                                         disabled={!previusPage}
                                     >
-                                        Previous
+                                        Anterior
                                     </button>
                                     <button
                                         className="btn btn-secondary ml-2"
                                         onClick={handleNextPage}
                                         disabled={!nextPage}
                                     >
-                                        Next
+                                        Siguiente
                                     </button>
                                 </div>
                             </div>
