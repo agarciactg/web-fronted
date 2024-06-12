@@ -34,6 +34,8 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
 
   if (!user) return null;  // No renderizar si no hay usuario
 
+  // TODO: Hacer que se precargue la informacion en el formulario de editar.
+
   return (
     <div className="modal" style={{ display: 'block' }}>
       <div className="modal-dialog">

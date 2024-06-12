@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { User } from '@app/services/users/users-provider';
+import React, { useEffect, useState } from 'react';
+import { fetchTeacher, User } from '@app/services/users/users-provider';
 import { AcademicGroupsInterface, Teacher } from '@app/services/academic-groups/academic-groups';
 import { degreesOptions } from '@app/utils/constant';
 
@@ -14,9 +14,36 @@ const EditAcademicModal: React.FC<EditAcademicModalProps> = ({ academic, onClose
   const [code, setCode] = useState<string | undefined>(undefined);
   const [degress_display, setDegressDisplay] = useState<string | undefined>(undefined);
   const [degress, setDegress] = useState<string | undefined>(undefined);
-  const [teachers, setTeachers] = useState<Teacher[] | undefined>(undefined);
+  const [teachers, setTeachers] = useState<any | undefined>(undefined);
+  const [allTeachers, setAllTeachers] = useState<Teacher[]>([]);
   const [selectTeacherId, setSelectTeacherId] = useState<number | null>(null);
 
+  // get list of teachers
+  useEffect(() => {
+    const loadTeachers = async () => {
+      try {
+        const response = await fetchTeacher();
+        setAllTeachers(response.data.results);
+      } catch (error) {
+        console.error('Error loading teachers:', error);
+      }
+    };
+    loadTeachers();
+  }, []);
+
+  useEffect(() => {
+    if (academic) {
+      setName(academic.name)
+      setCode(academic.code!)
+      setDegress(academic.degress)
+      setTeachers((academic.teachers) ? academic.teachers.map(academi => academi.id) : [])
+    }
+  }, [academic])
+
+  const handleTeachersChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedTeachers = Array.from(e.target.selectedOptions, option => option.value);
+    setTeachers(selectedTeachers);
+  };
 
   // Manejar el guardado de los cambios
   const handleSave = () => {
@@ -28,9 +55,9 @@ const EditAcademicModal: React.FC<EditAcademicModalProps> = ({ academic, onClose
 
     onSave(updatedData);
   };
-
+  
   if (!academic) return null;  // No renderizar si no hay usuario
-
+  
   return (
     <div className="modal" style={{ display: 'block' }}>
       <div className="modal-dialog">
@@ -51,8 +78,8 @@ const EditAcademicModal: React.FC<EditAcademicModalProps> = ({ academic, onClose
                   id="name"
                   value={name ?? academic.name}
                   onChange={e => setName(e.target.value)}
-                />
-              </div>
+                  />
+              </div>  console.log(subjects, '------')
               <div className="form-group">
                 <label htmlFor="code">Codigo</label>
                 <input
@@ -67,7 +94,7 @@ const EditAcademicModal: React.FC<EditAcademicModalProps> = ({ academic, onClose
                 <label>Grado</label>
                 <select
                   className="form-control"
-                  value={degress}
+                  value={academic.degress}
                   onChange={(e) => setDegress(e.target.value)}
                 >
                   <option value="">Selecione un grado</option>
@@ -83,11 +110,12 @@ const EditAcademicModal: React.FC<EditAcademicModalProps> = ({ academic, onClose
                 <select
                   className="form-control"
                   id="teachers"
-                  value={selectTeacherId ?? ''}
-                  onChange={e => setSelectTeacherId(Number(e.target.value))}
+                  multiple
+                  value={teachers}
+                  onChange={handleTeachersChange}
                 >
-                  <option value="">....</option>
-                  {academic.teachers.map((teacher) => (
+                  <option value="">Seleccione los Profesores</option>
+                  {allTeachers.map((teacher) => (
                     <option key={teacher.id} value={teacher.id}>
                       {teacher.user.get_full_name}
                     </option>

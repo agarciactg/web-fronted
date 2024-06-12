@@ -98,7 +98,7 @@ const EditSubjectModal: React.FC<EditSubjectsModalProps> = ({ subjects, onClose,
                 <label>Profesor</label>
                 <select
                   className="form-control"
-                  value={teacher?.id ?? ''}
+                  value={teacher.id}
                   onChange={(e) => setTeacher(e.target.value)}
                 >
                   <option value="">Seleccione un profesor</option>
