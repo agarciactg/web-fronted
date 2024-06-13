@@ -78,8 +78,8 @@ const ForgotPassword = () => {
         <div className="card card-outline card-primary">
           <div className="card-header text-center">
             <Link to="/" className="h1">
-              <b>Admin</b>
-              <span>LTE</span>
+              <b>Olvidaste tu contraseña?</b>
+              <span>contraseña?</span>
             </Link>
           </div>
           <div className="card-body">
