@@ -1,0 +1,91 @@
+/* Añadir estos estilos a tu archivo CSS o SCSS */
+.main-sidebar {
+    background-color: #fff !important;
+    color: #000;
+}
+
+.brand-link {
+    border-bottom: 1px solid #ddd;
+}
+
+.user-panel {
+    border-bottom: 1px solid #ddd;
+}
+
+.nav-sidebar .nav-link.active {
+    background-color: rgba(244,246,249,255);
+    color: #007bff;
+}
+
+.nav-item:hover {
+    background-color: #007bff59;
+    color: #007bff !important;
+    border-radius: 4px;
+}
+
+.nav-sidebar .nav-icon {
+    color: #007bff;
+}
+
+.nav-sidebar .nav-header {
+    color: #000;
+}
+
+.nav-sidebar .menu-open>.nav-treeview {
+    display: block;
+}
+
+/* .sidebar {
+    padding-top: 1rem;
+
+    height: 100% !important;
+} */
+
+.nav-sidebar>.nav-item>.nav-link {
+    border-radius: 4px;
+}
+
+/* Añadir estos estilos a tu archivo CSS o SCSS */
+.nav-sidebar .nav-link.active {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.nav-sidebar .nav-link.active .nav-icon {
+    color: #fff;
+}
+
+/* Estilos para enlaces no activos */
+.nav-sidebar .nav-link {
+    color: #484d52d3;
+    /* Color gris para el texto */
+}
+
+.nav-sidebar .nav-icon {
+    color: #484d52d3;
+    /* Color gris para los iconos */
+}
+
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 51rem;
+    /* background-color: aqua; */
+}
+
+.bottom-menu {
+    margin-top: auto;
+    margin-bottom: 1rem;
+}
+
+
+.brand-text-font-weight-light {
+    color: #000;
+}
+
+.info > .d-block:hover {
+    color: #0000009d !important;
+    border-radius: 4px;
+}
