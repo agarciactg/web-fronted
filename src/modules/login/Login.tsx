@@ -82,9 +82,9 @@ const Login = () => {
     },
     validationSchema: Yup.object({
       email: Yup.string()
-        .email("Dirección de Correo Invalida")
+        .max(30, "Minimo 30 Caracteres o Menos")
         .required("Obligatorio"),
-      password: Yup.string()
+        password: Yup.string()
         .min(5, "Minimo 5 Caracteres o Mas")
         .max(30, "Minimo 30 Caracteres o Menos")
         .required("Obligatorio"),
@@ -137,8 +137,8 @@ const Login = () => {
                         <Form.Control
                           id="email"
                           name="email"
-                          type="email"
-                          placeholder="Correo Electronico"
+                          type="text"
+                          placeholder="Username / Correo Electronico"
                           onChange={handleChange}
                           value={values.email}
                           isValid={touched.email && !errors.email}
