@@ -15,9 +15,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
   const [typeDocument, setTypeDocument] = useState<string | undefined>(undefined);
   const [documentNumber, setDocumentNumber] = useState<string | undefined>(undefined);
   const [email, setEmail] = useState<string | undefined>(undefined);
-  // const [isActive, setIsActive] = useState<boolean | undefined>(undefined);
 
-  // Manejar el guardado de los cambios
   const handleSave = () => {
     const updatedData: Partial<Omit<User, 'id'>> = {};
     if (typeUser !== undefined) updatedData.type_user = typeUser;
@@ -27,14 +25,11 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
     if (typeDocument !== undefined) updatedData.type_document = typeDocument;
     if (documentNumber !== undefined) updatedData.document_number = parseInt(documentNumber, 10);
     if (email !== undefined) updatedData.email = email;
-    // if (isActive !== undefined) updatedData.is_active = isActive;
 
     onSave(updatedData);
   };
 
   if (!user) return null;  // No renderizar si no hay usuario
-
-  // TODO: Hacer que se precargue la informacion en el formulario de editar.
 
   return (
     <div className="modal" style={{ display: 'block' }}>
@@ -56,15 +51,15 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
                   value={typeUser ?? user.type_user}
                   onChange={e => setTypeUser(e.target.value)}
                 >
-                  <option value="ADMIN">Administrador</option>
-                  <option value="RECTOR">Rector</option>
-                  <option value="DIRECTOR">Director</option>
-                  <option value="SYSTEM_CHIEF">Jefe de Sistemas</option>
-                  <option value="TEACHER">Docente</option>
-                  <option value="STUDENT">Estudiante</option>
-                  <option value="TUTOR">Acudiente</option>
-                  <option value="INSTITUTION_STAFF">Otro</option>
-                  <option value="COORDINATOR">Coordinador</option>
+                  <option key="0" value="0">Administrador</option>
+                  <option key="1" value="1">Rector</option>
+                  <option key="2" value="2">Director</option>
+                  <option key="3" value="3">Jefe de Sistemas</option>
+                  <option key="4" value="4">Docente</option>
+                  <option key="5" value="5">Estudiante</option>
+                  <option key="6" value="6">Acudiente</option>
+                  <option key="7" value="7">Otro</option>
+                  <option key="8" value="8">Coordinador</option>
                 </select>
               </div>
               <div className="form-group">
@@ -105,10 +100,10 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
                   value={typeDocument! ?? user.type_document}
                   onChange={e => setTypeDocument(e.target.value)}
                 >
-                  <option value="CC">Cedula de Ciudadania</option>
-                  <option value="TI">Tarjeta de Identidad</option>
-                  <option value="PS">Pasaporte</option>
-                  <option value="NA">Otro</option>
+                  <option value="0">Cedula de Ciudadania</option>
+                  <option value="1">Tarjeta de Identidad</option>
+                  <option value="2">Pasaporte</option>
+                  <option value="4">Otro</option>
                 </select>
               </div>
               <div className="form-group">

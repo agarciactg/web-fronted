@@ -63,7 +63,7 @@ const EditAcademicModal: React.FC<EditAcademicModalProps> = ({ academic, onClose
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Editar Usuario</h5>
+            <h5 className="modal-title">Editar Grupos academicos</h5>
             <button type="button" className="close" onClick={onClose}>
               <span>&times;</span>
             </button>
@@ -79,7 +79,7 @@ const EditAcademicModal: React.FC<EditAcademicModalProps> = ({ academic, onClose
                   value={name ?? academic.name}
                   onChange={e => setName(e.target.value)}
                   />
-              </div>  console.log(subjects, '------')
+              </div>
               <div className="form-group">
                 <label htmlFor="code">Codigo</label>
                 <input
