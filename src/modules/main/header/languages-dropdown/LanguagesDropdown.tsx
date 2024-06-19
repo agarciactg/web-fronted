@@ -9,26 +9,26 @@ export interface Language {
 }
 
 const languages: Language[] = [
-  {
-    key: 'en',
-    icon: 'flag-icon-us',
-    label: 'header.language.english',
-  },
-  {
-    key: 'tr',
-    icon: 'flag-icon-tr',
-    label: 'header.language.turkish',
-  },
-  {
-    key: 'de',
-    icon: 'flag-icon-de',
-    label: 'header.language.german',
-  },
-  {
-    key: 'fr',
-    icon: 'flag-icon-fr',
-    label: 'header.language.french',
-  },
+  // {
+  //   key: 'en',
+  //   icon: 'flag-icon-us',
+  //   label: 'header.language.english',
+  // },
+  // {
+  //   key: 'tr',
+  //   icon: 'flag-icon-tr',
+  //   label: 'header.language.turkish',
+  // },
+  // {
+  //   key: 'de',
+  //   icon: 'flag-icon-de',
+  //   label: 'header.language.german',
+  // },
+  // {
+  //   key: 'fr',
+  //   icon: 'flag-icon-fr',
+  //   label: 'header.language.french',
+  // },
   {
     key: 'es',
     icon: 'flag-icon-es',
