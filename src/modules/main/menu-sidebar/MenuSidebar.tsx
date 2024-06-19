@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { MenuItem } from '@components';
 import { Image } from '@profabric/react-components';
 import styled from 'styled-components';
-import { SidebarSearch } from '@app/components/sidebar-search/SidebarSearch';
 import i18n from '@app/utils/i18n';
+import './menuSidebar.css'
 
 export interface IMenuItem {
   name: string;
@@ -40,23 +40,6 @@ export const MENU_ADMIN: IMenuItem[] = [
     icon: 'fa fa-users nav-icon',
     path: '/enrollment',
   },
-  // {
-  //   name: i18n.t('menusidebar.label.mainMenu'),
-  //   icon: 'far fa-caret-square-down nav-icon',
-  //   children: [
-  //     {
-  //       name: i18n.t('menusidebar.label.subMenu'),
-  //       icon: 'fas fa-hammer nav-icon',
-  //       path: '/sub-menu-1',
-  //     },
-
-  //     {
-  //       name: i18n.t('menusidebar.label.blank'),
-  //       icon: 'fas fa-cogs nav-icon',
-  //       path: '/sub-menu-2',
-  //     },
-  //   ],
-  // },
 ];
 
 export const MENU_TEACHER: IMenuItem[] = [
@@ -85,7 +68,6 @@ export const MENU_STUDENT: IMenuItem[] = [
     icon: 'fas fa-wrench nav-icon',
     path: '/blank',
   },
-  // Otros ítems para el estudiante...
 ];
 
 const StyledBrandImage = styled(Image)`
@@ -93,7 +75,6 @@ const StyledBrandImage = styled(Image)`
   line-height: 0.8;
   margin: -1px 8px 0 6px;
   opacity: 0.8;
-  --pf-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23) !important;
 `;
 
 const StyledUserImage = styled(Image)`
@@ -106,7 +87,6 @@ const MenuSidebar: React.FC = () => {
   const menuItemFlat = useSelector((state: any) => state.ui.menuItemFlat);
   const menuChildIndent = useSelector((state: any) => state.ui.menuChildIndent);
 
-  // Define el tipo de usuario y selecciona el menú correspondiente
   const [selectedMenu, setSelectedMenu] = useState<IMenuItem[]>([]);
   const [userType, setUserType] = useState<string | null>(null);
   
@@ -133,7 +113,7 @@ const MenuSidebar: React.FC = () => {
     } else { 
       console.log("Tipo de usuario no encontrado.")
     }
-  }, [authentication]); // Considera actualizar esta dependencia si es necesario
+  }, [authentication]);
 
   return (
     <aside className={`main-sidebar elevation-4 ${sidebarSkin}`}>
@@ -145,7 +125,7 @@ const MenuSidebar: React.FC = () => {
           height={33}
           rounded
         />
-        <span className="brand-text font-weight-light">AdminLTE 3</span>
+        <span className="brand-text-font-weight-light">Software Matriculas</span>
       </Link>
       <div className="sidebar">
         <div className="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -165,14 +145,8 @@ const MenuSidebar: React.FC = () => {
             </Link>
           </div>
         </div>
-        
-        {/* 
-        <div className="form-inline">
-          <SidebarSearch />
-        </div> 
-        */}
 
-        <nav className="mt-2" style={{ overflowY: 'hidden' }}>
+        <nav className="mt-2 menu-container">
           <ul
             className={`nav nav-pills nav-sidebar flex-column${menuItemFlat ? ' nav-flat' : ''}${menuChildIndent ? ' nav-child-indent' : ''}`}
             role="menu"
@@ -180,6 +154,16 @@ const MenuSidebar: React.FC = () => {
             {selectedMenu.map((menuItem: IMenuItem) => (
               <MenuItem key={menuItem.name + menuItem.path} menuItem={menuItem} />
             ))}
+          </ul>
+          <ul className="nav nav-pills nav-sidebar flex-column bottom-menu" role="menu">
+            <MenuItem
+              key="Configuracion"
+              menuItem={{
+                name: 'Configuración',
+                icon: 'fa fa-cog nav-icon',
+                path: '/settings',
+              }}
+            />
           </ul>
         </nav>
       </div>
