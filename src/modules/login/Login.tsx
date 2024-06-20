@@ -104,10 +104,10 @@ const Login = () => {
         <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image">
           
           <div className="content">
-            <h1>IEJDV Matriculas</h1>
+            <h1>SSPC Matriculas</h1>
             <p>Gestor de Matriculas Estudiantiles</p>
             <button>Sitio Web</button>
-            <button className="btn-inscripcion">Incribir Alumno</button>
+            <button className="btn-inscripcion">Inscribir Alumno</button>
           </div>
           
           <div className="Logo">
@@ -123,8 +123,8 @@ const Login = () => {
             <div className="container">
               <div className="row">
                 <div className="col-md-9 col-lg-8 mx-auto">
-                  <h3 className="login-heading">Hello Admin!</h3>
-                  <h3 className="login-heading">Bienvenido de vuelta</h3>
+                  <h3 className="titulo">Hello Admin!</h3>
+                  <h3 className="subtitulo">Bienvenido de vuelta</h3>
 
                   <form onSubmit={handleSubmit}>
                     <div className="Email-input">
