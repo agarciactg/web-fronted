@@ -1,0 +1,112 @@
+.title-page {
+    color: rgba(24, 24, 24, 0.726);
+    font-size: 2rem !important;
+}
+
+
+/* styles card users */
+.container-icon {
+    display: flex;
+    gap: 35%;
+}
+
+.container-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#icon-div {
+    padding-top: 12px;
+    margin-left: 10px;
+    border-radius: 20px;
+    background-color: #8985ff5e;
+    align-self: center;
+    width: 70px;
+    height: 60px;
+}
+
+#icon-title {
+    padding-left: 5px;
+    
+}
+
+.container-body > .p {
+    font-family: 'sans-serif';
+
+}
+
+#footer-bottom {
+    background-color: #8985ff5e;
+    border-end-start-radius: 8px;
+    border-end-end-radius: 8px;
+}
+
+#small-box-id {
+    border-radius: 8px;
+}
+
+.small-box > .inner {
+    background-color: white;
+    border-radius: 8px;
+}
+
+.title-card {
+    color: rgba(58, 58, 58, 0.726);
+}
+
+.text-card {
+    color:rgba(24, 24, 24, 0.726);
+}
+
+
+/* styles enrolment */
+
+#icon-div-enrollment {
+    padding-top: 12px;
+    margin-left: 10px;
+    border-radius: 20px;
+    background-color: #ffc10754;
+    align-self: center;
+    width: 70px;
+    height: 60px;
+}
+
+#footer-bottom-enrollment {
+    background-color: #ffc10754;
+    border-end-start-radius: 8px;
+    border-end-end-radius: 8px;
+}
+
+/* styles academic */
+#icon-div-academic {
+    padding-top: 12px;
+    margin-left: 10px;
+    border-radius: 20px;
+    background-color: #4ed6a667;
+    align-self: center;
+    width: 70px;
+    height: 60px;
+}
+
+#footer-bottom-academic {
+    background-color: #4ed6a667;
+    border-end-start-radius: 8px;
+    border-end-end-radius: 8px;
+}
+
+/* styles subjects */
+#icon-div-subjects {
+    padding-top: 12px;
+    margin-left: 10px;
+    border-radius: 20px;
+    background-color: #ff906e70;
+    align-self: center;
+    width: 70px;
+    height: 60px;
+}
+
+#footer-bottom-subjects {
+    background-color: #ff906e70;
+    border-end-start-radius: 8px;
+    border-end-end-radius: 8px;
+}
