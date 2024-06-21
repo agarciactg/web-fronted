@@ -4,6 +4,7 @@ import { faBookBookmark, faFileSignature, faPeopleGroup, faUserFriends } from '@
 import PersonIcon from '@mui/icons-material/Person';
 import { ContentHeader } from '@components';
 import './styles/dashboard.css'
+import { NavLink } from 'react-router-dom';
 
 
 // const UserModule: React.FC = () => (
@@ -88,12 +89,12 @@ const UserModule: React.FC = () => (
           </div>
         </div>
       </div>
-      <a href="/users" className="small-box-footer" id='footer-bottom'>
+      <NavLink to="/users" className="small-box-footer" id='footer-bottom'>
         Ir al modulo <i className="fas fa-arrow-circle-right" />
-      </a>
+      </NavLink>
     </div>
   </div>
-);
+)
 
 
 const EnrollmentModule: React.FC = () => (
@@ -110,9 +111,9 @@ const EnrollmentModule: React.FC = () => (
           </div>
         </div>
       </div>
-      <a href="/enrollment" className="small-box-footer" id='footer-bottom-enrollment'>
+      <NavLink to="/enrollment" className="small-box-footer" id='footer-bottom-enrollment'>
         Ir al modulo <i className="fas fa-arrow-circle-right" />
-      </a>
+      </NavLink>
     </div>
   </div>
 );
@@ -132,9 +133,9 @@ const AcademicGroupsModule: React.FC = () => (
           </div>
         </div>
       </div>
-      <a href="/academic-groups" className="small-box-footer" id='footer-bottom-academic'>
+      <NavLink to="/academic-groups" className="small-box-footer" id='footer-bottom-academic'>
         Ir al modulo <i className="fas fa-arrow-circle-right" />
-      </a>
+      </NavLink>
     </div>
   </div>
 );
@@ -153,9 +154,9 @@ const SubjectsModule: React.FC = () => (
           </div>
         </div>
       </div>
-      <a href="/academic-groups" className="small-box-footer" id='footer-bottom-subjects'>
+      <NavLink to="/subjects" className="small-box-footer" id='footer-bottom-subjects'>
         Ir al modulo <i className="fas fa-arrow-circle-right" />
-      </a>
+      </NavLink>
     </div>
   </div>
 );

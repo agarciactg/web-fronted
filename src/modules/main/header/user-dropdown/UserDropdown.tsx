@@ -47,6 +47,9 @@ const UserDropdown = () => {
     navigate('/profile');
   };
 
+  const typeUser = localStorage.getItem('type_user');
+  const typeUserWithoutQuotes = typeUser ? typeUser.replace(/"/g, '') : null;
+
   return (
     <UserMenuDropdown isOpen={dropdownOpen} hideArrow>
       <StyledSmallUserImage
@@ -71,7 +74,7 @@ const UserDropdown = () => {
           <p>
             {authentication.profile.email}
             <small>
-              <span>Member since </span>
+              <span>{typeUserWithoutQuotes}</span>
               <span>
                 {/* {DateTime.fromISO(user.createdAt).toFormat('dd LLL yyyy')} */}
               </span>
