@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 
 
 const ContentHeader = ({ title }: { title: string }) => {
@@ -11,7 +12,7 @@ const ContentHeader = ({ title }: { title: string }) => {
           <div className="col-sm-6">
             <ol className="breadcrumb float-sm-right">
               <li className="breadcrumb-item">
-                <a href="/">Home</a>
+                <NavLink to="/">Home</NavLink>
               </li>
               <li className="breadcrumb-item active">{title}</li>
             </ol>

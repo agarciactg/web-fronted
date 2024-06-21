@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { setWindowClass } from "@app/utils/helpers";
@@ -85,7 +85,9 @@ const ForgotPassword = () => {
           <div className="content">
             <h1>SSPC Matriculas</h1>
             <p>Gestor de Matriculas Estudiantiles</p>
-            <button>Sitio Web</button>
+            <button className="btn-login-public">
+              <NavLink to="/">Sitio Web</NavLink> 
+            </button>
           </div>
 
           <div className="Logo">

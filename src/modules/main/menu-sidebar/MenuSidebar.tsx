@@ -120,12 +120,12 @@ const MenuSidebar: React.FC = () => {
       <Link to="/" className="brand-link">
         <StyledBrandImage
           src="/img/logo.png"
-          alt="AdminLTE Logo"
+          alt="web Logo"
           width={33}
           height={33}
           rounded
         />
-        <span className="brand-text-font-weight-light">Software Matriculas</span>
+        <span className="brand-text-font-weight-light">Weonline</span>
       </Link>
       <div className="sidebar">
         <div className="user-panel mt-3 pb-3 mb-3 d-flex">

@@ -11,6 +11,16 @@ const SettingsConfig = () => {
         numero: "+57 300716746",
     });
 
+    const [name, setName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [username, setUsername] = useState<string>('');
+    const [typeUser, setTypeUser] = useState<string>('');
+    const [documentNumber, setDocumentNumber] = useState<string>('');
+    const [typeIdentification, setTypeIdentification] = useState<string>('');
+
+    // TODO: conectar endpoint de actualizar para poner dinamico el formualio
+
     return (
         <div className="settings-container">
             <ContentHeader title="Configuracion General" />
@@ -24,23 +34,75 @@ const SettingsConfig = () => {
                                 <div className="user-details">
                                     <div className="form-group-setting">
                                         <label className="label-settings">Nombre Completo</label>
-                                        <input type="text" className="form-control-setting" value={userDetails.nombreCompleto} placeholder='Ingrese los datos' onChange={e => e.target.value} />
+                                        <input 
+                                            type="text" 
+                                            className="form-control-setting" 
+                                            value={name} 
+                                            onChange={(e) => setName(e.target.value)} 
+                                            placeholder='Ingrese los datos' 
+                                        />
                                     </div>
                                     <div className="form-group-setting">
-                                        <label className="label-settings">Rol</label>
-                                        <input type="text" className="form-control-setting" value={userDetails.rol}  />
+                                        <label className="label-settings">Apellido</label>
+                                        <input 
+                                            type="text" 
+                                            className="form-control-setting" 
+                                            value={lastName} 
+                                            onChange={(e) => setLastName(e.target.value)} 
+                                            placeholder='Ingrese los datos' 
+                                        />
                                     </div>
                                     <div className="form-group-setting">
                                         <label className="label-settings">Email Admin</label>
-                                        <input type="email" className="form-control-setting" value={userDetails.emailAdmin}  />
+                                        <input 
+                                            type="text" 
+                                            className="form-control-setting" 
+                                            value={email} 
+                                            onChange={(e) => setEmail(e.target.value)} 
+                                            placeholder='Ingrese los datos' 
+                                        />
                                     </div>
                                     <div className="form-group-setting">
-                                        <label className="label-settings">Admin Descripción</label>
-                                        <textarea className="form-control-setting" rows={3} >{userDetails.adminDescripcion}</textarea>
+                                        <label className="label-settings">Username</label>
+                                        <input 
+                                            type="text" 
+                                            className="form-control-setting" 
+                                            value={username} 
+                                            onChange={(e) => setUsername(e.target.value)} 
+                                            placeholder='Ingrese los datos' 
+                                        />
                                     </div>
                                     <div className="form-group-setting">
-                                        <label className="label-settings">Número</label>
-                                        <input type="text" className="form-control-setting" value={userDetails.numero}  />
+                                        <label className="label-settings">Tipo de identificación</label>
+                                        <input 
+                                            type="text" 
+                                            className="form-control-setting" 
+                                            value={typeUser} 
+                                            onChange={(e) => setTypeUser(e.target.value)} 
+                                            placeholder='Ingrese los datos' 
+                                        />
+                                    </div>
+                                    <div className="form-group-setting">
+                                        <label className="label-settings">Numero Documento</label>
+                                        <input 
+                                            type="text" 
+                                            className="form-control-setting" 
+                                            value={documentNumber} 
+                                            onChange={(e) => setDocumentNumber(e.target.value)} 
+                                            placeholder='Ingrese los datos' 
+                                            readOnly
+                                        />
+                                    </div>
+                                    <div className="form-group-setting">
+                                        <label className="label-settings">Tipo de usuario</label>
+                                        <input 
+                                            type="text" 
+                                            className="form-control-setting" 
+                                            value={typeIdentification} 
+                                            onChange={(e) => setTypeIdentification(e.target.value)} 
+                                            placeholder='Ingrese los datos'
+                                            readOnly
+                                        />
                                     </div>
                                 </div>
                                 <button className="btn btn-primary save-button">Guardar cambios</button>
