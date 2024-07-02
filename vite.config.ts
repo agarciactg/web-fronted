@@ -4,7 +4,8 @@ import path from 'path';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default ({ mode }) => {
-  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+  // Cargar variables de entorno y extender process.env
+  const env = loadEnv(mode, process.cwd());
 
   return defineConfig({
     mode: 'development',
@@ -17,6 +18,9 @@ export default ({ mode }) => {
         '@modules': path.resolve(__dirname, './src/modules'),
         '@pages': path.resolve(__dirname, './src/pages'),
       },
+    },
+    define: {
+      'process.env': env, // Define las variables de entorno
     },
   });
 };

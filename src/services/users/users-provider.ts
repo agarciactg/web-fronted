@@ -1,4 +1,4 @@
-import { apiKey, baseUrl, headers } from '@app/utils/apiConfig';
+import { baseUrl, headers } from '@app/utils/apiConfig';
 import axios from 'axios';
 
 export interface User {

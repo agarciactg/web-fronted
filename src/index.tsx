@@ -9,21 +9,24 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import ReactGA from 'react-ga4';
 
-const { VITE_NODE_ENV, VITE_GA_ID } = import.meta.env;
+// Acceder a las variables de entorno
+const { VITE_NODE_ENV, VITE_GA_ID, VITE_BASE_URL, VITE_API_KEY } = import.meta.env;
 
 if (VITE_NODE_ENV === 'production' && VITE_GA_ID) {
   ReactGA.initialize(VITE_GA_ID);
 }
 
-const container: any = document.getElementById('root');
-const root = createRoot(container);
-root.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>
-);
+const container: HTMLElement | null = document.getElementById('root');
+if (container) {
+  const root = createRoot(container);
+  root.render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  );
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

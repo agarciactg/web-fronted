@@ -1,4 +1,4 @@
-import { apiKey, baseUrl } from "@app/utils/apiConfig";
+import { baseUrl, headers } from "@app/utils/apiConfig";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -8,11 +8,6 @@ export const forgotPasswordProvider = async (email: string): Promise<any> => {
 
     const postData = {
       email: email,
-    };
-
-    const headers = {
-      "X-Api-Key": apiKey,
-      "Content-Type": "application/json",
     };
 
     const response = await axios.post(apiUrl, postData, { headers });
@@ -30,7 +25,7 @@ export const forgotPasswordProvider = async (email: string): Promise<any> => {
 };
 
 
-export const resetPasswordProvider = async ({ email, resetCode, newPassword }): Promise<any> => {
+export const resetPasswordProvider = async ({ email, resetCode, newPassword }: any): Promise<any> => {
   try {
     const apiUrl: string = baseUrl + "reset-password/confirm/";
 
@@ -38,11 +33,6 @@ export const resetPasswordProvider = async ({ email, resetCode, newPassword }): 
       email: email,
       reset_code: resetCode,
       password: newPassword
-    };
-
-    const headers = {
-      "X-Api-Key": apiKey,
-      "Content-Type": "application/json",
     };
 
     const response = await axios.post(apiUrl, postData, { headers });

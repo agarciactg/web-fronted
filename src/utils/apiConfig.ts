@@ -1,5 +1,5 @@
-export const baseUrl: string  = "http://201.219.216.217:5511/api/v1/"
-export const apiKey: string = "wLKp7Osz.KAgP5OJdvYCLJpUUrX0eH40fHQf4aDux";
+export const apiKey: string = import.meta.env.VITE_API_KEY;
+export const baseUrl: string = import.meta.env.VITE_BASE_URL;
 
 const rawToken = localStorage.getItem('token');
 // Elimina las comillas dobles que rodean al token

@@ -1,6 +1,7 @@
 import { baseUrl, headers } from "@app/utils/apiConfig";
 import axios from "axios";
 
+
 export interface AcademicGroup {
   id: number,
   name: string
