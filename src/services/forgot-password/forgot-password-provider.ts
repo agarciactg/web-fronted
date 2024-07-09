@@ -1,4 +1,4 @@
-import { baseUrl, headers } from "@app/utils/apiConfig";
+import { baseUrl, headers, headers_not_token } from "@app/utils/apiConfig";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -10,7 +10,7 @@ export const forgotPasswordProvider = async (email: string): Promise<any> => {
       email: email,
     };
 
-    const response = await axios.post(apiUrl, postData, { headers });
+    const response = await axios.post(apiUrl, postData, { headers: headers_not_token });
     toast.success("Correo Enviado con Exito!");
     return response.data;
   } catch (error) {
@@ -35,7 +35,7 @@ export const resetPasswordProvider = async ({ email, resetCode, newPassword }: a
       password: newPassword
     };
 
-    const response = await axios.post(apiUrl, postData, { headers });
+    const response = await axios.post(apiUrl, postData, { headers: headers_not_token });
     toast.success('Contraseña restablecida con éxito');
     return response.data;
   } catch (error: any) {

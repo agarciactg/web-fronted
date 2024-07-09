@@ -20,21 +20,23 @@ const ForgotPassword = () => {
   const [isRequest, setIsRequest] = useState(false);
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isEmailSent, setIsEmailSent] = useState(false); // Estado para controlar el formulario
 
   const forgotPassword = async (email: string) => {
     try {
       setIsLoading(true);
-      const response = await forgotPasswordProvider(email);
+      await forgotPasswordProvider(email);
       setIsLoading(false);
       setIsRequest(true);
       setEmail(email); // save email in form
+      setIsEmailSent(true); // Cambia el estado para mostrar el otro formulario
     } catch (error: any) {
       setIsLoading(false);
       toast.error(error.message || "Failed");
     }
   };
 
-  const resetPassword = async ({ resetCode, newPassword }) => {
+  const resetPassword = async ({ resetCode, newPassword }: any) => {
     try {
       setIsLoading(true);
       const response = await resetPasswordProvider({
@@ -75,7 +77,6 @@ const ForgotPassword = () => {
     onSubmit: (values) => resetPassword(values),
   });
 
-
   setWindowClass("hold-transition login-page");
 
   return (
@@ -103,54 +104,159 @@ const ForgotPassword = () => {
                   <h3 className="login-heading">
                     Web <span>Enrollment</span>
                   </h3>
-                  <h3 className="login-heading">
-                    Ingrese la dirección de correo electrónico que utilizó para
-                    registrarse y le enviaremos un enlace para restablecer su
-                    contraseña por Correo.
-                  </h3>
+                  {!isEmailSent ? (
+                    <>
+                      <h3 className="login-heading">
+                        Ingrese la dirección de correo electrónico que utilizó para
+                        registrarse y le enviaremos un enlace para restablecer su
+                        contraseña por Correo.
+                      </h3>
 
-                  <form onSubmit={formikForgotPassword.handleSubmit}>
-                    <div className="Email-input">
-                      <InputGroup className="pass-input-div">
-                        <InputGroup.Prepend>
-                          <InputGroup.Text>
-                            <i className="fas fa-envelope" />
-                          </InputGroup.Text>
-                        </InputGroup.Prepend>
-                        <Form.Control
-                          id="email"
-                          name="email"
-                          type="email"
-                          placeholder="Email"
-                          onChange={formikForgotPassword.handleChange}
-                          value={formikForgotPassword.values.email}
-                          isValid={
-                            formikForgotPassword.touched.email &&
-                            !formikForgotPassword.errors.email
-                          }
-                          isInvalid={
-                            formikForgotPassword.touched.email &&
-                            !!formikForgotPassword.errors.email
-                          }
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {formikForgotPassword.errors.email}
-                        </Form.Control.Feedback>
-                      </InputGroup>
-                    </div>
+                      <form onSubmit={formikForgotPassword.handleSubmit}>
+                        <div className="Email-input">
+                          <InputGroup className="pass-input-div">
+                            <InputGroup.Prepend>
+                              <InputGroup.Text>
+                                <i className="fas fa-envelope" />
+                              </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control
+                              id="email"
+                              name="email"
+                              type="email"
+                              placeholder="Email"
+                              onChange={formikForgotPassword.handleChange}
+                              value={formikForgotPassword.values.email}
+                              isValid={
+                                formikForgotPassword.touched.email &&
+                                !formikForgotPassword.errors.email
+                              }
+                              isInvalid={
+                                formikForgotPassword.touched.email &&
+                                !!formikForgotPassword.errors.email
+                              }
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {formikForgotPassword.errors.email}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </div>
 
-                    <div className="login-center-options"></div>
-                    <div className="button">
-                      <Button
-                        onClick={formikForgotPassword.handleSubmit as any}
-                        loading={isLoading}
-                      >
-                        {t("Recuperar Contraseña")}
-                      </Button>
-                    </div>
-                  </form>
-                  <p className="login-bottom-p ">
-                  <Link to="/login">
+                        <div className="login-center-options"></div>
+                        <div className="button">
+                          <Button
+                            onClick={formikForgotPassword.handleSubmit as any}
+                            loading={isLoading}
+                          >
+                            {t("Recuperar Contraseña")}
+                          </Button>
+                        </div>
+                      </form>
+                    </>
+                  ) : (
+                    <>
+                      <h3 className="login-heading">
+                        Ingrese el código de restablecimiento y su nueva contraseña.
+                      </h3>
+
+                      <form onSubmit={formikResetPassword.handleSubmit}>
+                        <div className="Email-input">
+                          <InputGroup className="pass-input-div">
+                            <InputGroup.Prepend>
+                              <InputGroup.Text>
+                                <i className="fas fa-lock" />
+                              </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control
+                              id="resetCode"
+                              name="resetCode"
+                              type="text"
+                              placeholder="Código de restablecimiento"
+                              onChange={formikResetPassword.handleChange}
+                              value={formikResetPassword.values.resetCode}
+                              isValid={
+                                formikResetPassword.touched.resetCode &&
+                                !formikResetPassword.errors.resetCode
+                              }
+                              isInvalid={
+                                formikResetPassword.touched.resetCode &&
+                                !!formikResetPassword.errors.resetCode
+                              }
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {formikResetPassword.errors.resetCode}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+
+                          <InputGroup className="pass-input-div">
+                            <InputGroup.Prepend>
+                              <InputGroup.Text>
+                                <i className="fas fa-key" />
+                              </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control
+                              id="newPassword"
+                              name="newPassword"
+                              type="password"
+                              placeholder="Nueva contraseña"
+                              onChange={formikResetPassword.handleChange}
+                              value={formikResetPassword.values.newPassword}
+                              isValid={
+                                formikResetPassword.touched.newPassword &&
+                                !formikResetPassword.errors.newPassword
+                              }
+                              isInvalid={
+                                formikResetPassword.touched.newPassword &&
+                                !!formikResetPassword.errors.newPassword
+                              }
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {formikResetPassword.errors.newPassword}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+
+                          <InputGroup className="pass-input-div">
+                            <InputGroup.Prepend>
+                              <InputGroup.Text>
+                                <i className="fas fa-key" />
+                              </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control
+                              id="confirmPassword"
+                              name="confirmPassword"
+                              type="password"
+                              placeholder="Confirmar nueva contraseña"
+                              onChange={formikResetPassword.handleChange}
+                              value={formikResetPassword.values.confirmPassword}
+                              isValid={
+                                formikResetPassword.touched.confirmPassword &&
+                                !formikResetPassword.errors.confirmPassword
+                              }
+                              isInvalid={
+                                formikResetPassword.touched.confirmPassword &&
+                                !!formikResetPassword.errors.confirmPassword
+                              }
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {formikResetPassword.errors.confirmPassword}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </div>
+
+                        <div className="login-center-options"></div>
+                        <div className="button">
+                          <Button
+                            onClick={formikResetPassword.handleSubmit as any}
+                            loading={isLoading}
+                          >
+                            {t("Restablecer Contraseña")}
+                          </Button>
+                        </div>
+                      </form>
+                    </>
+                  )}
+                  <p className="login-bottom-p">
+                    <Link to="/login">
                       {t("Volver a Inicio")}
                     </Link>
                   </p>

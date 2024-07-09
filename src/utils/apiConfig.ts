@@ -11,6 +11,11 @@ export const headers = {
   "Authorization": `Bearer ${token}`
 }
 
+export const headers_not_token: any = {
+  "X-Api-Key": apiKey,
+  "Content-Type": "application/json",
+}
+
 type RoleRedirects = {
   [key: string]: string;
 };
