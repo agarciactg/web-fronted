@@ -22,5 +22,8 @@ export default ({ mode }) => {
     define: {
       'process.env': env, // Define las variables de entorno
     },
+    server: {
+      port: 5745
+    },
   });
 };

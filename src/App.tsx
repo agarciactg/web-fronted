@@ -30,6 +30,7 @@ import Enrollment from './pages/Enrollment';
 import AcademicGroupsList from './pages/AcademicGroups';
 import SubjectsList from './pages/Subjects';
 import SettingsConfig from './pages/Settings';
+import InscriptionForm from './modules/inscription/Inscription';
 
 const { VITE_NODE_ENV } = import.meta.env;
 
@@ -100,6 +101,10 @@ const App = () => {
         <Route path="/recover-password" element={<PublicRoute />}>
           <Route path="/recover-password" element={<RecoverPassword />} />
         </Route>
+        <Route path="/inscription" element={<PublicRoute />}>
+          <Route path="/inscription" element={<InscriptionForm />} />
+        </Route>
+
 
         {/* Rutas privadas */}
         <Route path="/" element={<PrivateRoute />}>

@@ -9,6 +9,7 @@ interface EditSettingsModalProps {
     onSave: (updatedData: Partial<Omit<SettingsInterface, 'id'>>) => void;
 }
 
+// TODO: terminar el settings modal
 const SettingsModal: React.FC<EditSettingsModalProps> = ({ settings, onClose, onSave }) => {
     const [name, setName] = useState<string | undefined>(undefined);
     const [lastName, setLastName] = useState<string | undefined>(undefined);
