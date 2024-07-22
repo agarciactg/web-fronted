@@ -23,7 +23,11 @@ export default ({ mode }) => {
       'process.env': env, // Define las variables de entorno
     },
     server: {
-      port: 5745
+      port: 5511,
+      host: "0.0.0.0",
+    },
+    build: {
+      outDir: 'dist',
     },
   });
 };
