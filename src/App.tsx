@@ -118,6 +118,7 @@ const App = () => {
             <Route path="/academic-groups" element={<AcademicGroupsList />} />
             <Route path="/subjects" element={<SubjectsList />} />
             <Route path="/settings" element={<SettingsConfig />} />
+          
             <Route path="/" element={<Dashboard />} />
           </Route>
         </Route>

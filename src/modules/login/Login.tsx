@@ -107,7 +107,7 @@ const Login = () => {
             <h1>SSPC Matriculas</h1>
             <p>Gestor de Matriculas Estudiantiles</p>
             <button>Sitio Web</button>
-            <button className="btn-inscripcion">Inscribir Alumno</button>
+            <Link to="/inscription"><button className="btn-inscripcion">Inscribir Alumno</button></Link>
           </div>
           
           <div className="Logo">

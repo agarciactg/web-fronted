@@ -10,7 +10,7 @@ interface EditSettingsModalProps {
 }
 
 // TODO: terminar el settings modal
-const SettingsModal: React.FC<EditSettingsModalProps> = ({ settings, onClose, onSave }) => {
+const SettingsModal: React.FC<EditSettingsModalProps> = ({ onSave }) => {
     const [name, setName] = useState<string | undefined>(undefined);
     const [lastName, setLastName] = useState<string | undefined>(undefined);
     const [email, setEmail] = useState<string | undefined>(undefined);

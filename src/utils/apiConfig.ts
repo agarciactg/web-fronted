@@ -16,6 +16,11 @@ export const headers_not_token: any = {
   "Content-Type": "application/json",
 }
 
+export const headers_not_token_form_data: any = {
+  "X-Api-Key": apiKey,
+  'Content-Type': 'multipart/form-data'
+}
+
 type RoleRedirects = {
   [key: string]: string;
 };
