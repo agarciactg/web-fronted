@@ -37,7 +37,7 @@ export const detailSettings = async (settings: Partial<any>): Promise<any> => {
 }
 
 export const updatedSettings = async (id: number, updatedSettings: Partial<Omit<SettingsInterface, 'id'>>): Promise<SettingsInterface> => {
-  const API_URL = `${baseUrl}users/updated-personal/${id}/`;
+  const API_URL = `${baseUrl}users/settings/${id}/`;
   const response = await axios.put<SettingsInterface>(API_URL, updatedSettings, { headers });
   return response.data;
 }

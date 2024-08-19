@@ -1,6 +1,24 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import { Form, Input, Button, DatePicker, Select, Col, Row, Typography, Upload, Steps, Checkbox, UploadProps } from 'antd';
-import { UserOutlined, MailOutlined, UploadOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  MailOutlined,
+  UploadOutlined,
+  IdcardOutlined,
+  RobotOutlined,
+  GlobalOutlined,
+  SendOutlined,
+  CarOutlined,
+  MoneyCollectOutlined,
+  PictureOutlined,
+  SkinOutlined,
+  PhoneOutlined,
+  TrophyOutlined,
+  TagsOutlined,
+  DollarOutlined,
+  BankOutlined
+} from '@ant-design/icons';
 import "./styles/Inscription.css";
 import logo from "../login/logo.png";
 import { Link } from 'react-router-dom';
@@ -47,13 +65,11 @@ const MultiStepForm: React.FC = () => {
       allValues.date_of_bird = dayjs(allValues.date_of_bird).format("YYYY-MM-DD");
     }
 
-    console.log(formValues, "--------")
-
     const formData = new FormData();
 
     Object.keys(allValues).forEach(key => {
       const value = allValues[key];
-    
+
       if (Array.isArray(value)) {
         // Verifica si es un array de archivos
         if (value[0] && value[0].originFileObj) {
@@ -73,9 +89,6 @@ const MultiStepForm: React.FC = () => {
       }
     });
 
-    console.log(formData, "++++++++++++")
-
-
     // Llama a la función para enviar la inscripción
     IncriptionCreated(formData);
   };
@@ -87,7 +100,7 @@ const MultiStepForm: React.FC = () => {
       [key]: [file]
     }));
   };
-  
+
   const propsTemplate = (key: string) => ({
     onRemove: (file: any) => {
       setFormValues((prevValues: any) => {
@@ -101,7 +114,7 @@ const MultiStepForm: React.FC = () => {
       return false;
     },
   });
-  
+
 
 
   const next = async () => {
@@ -171,21 +184,23 @@ const MultiStepForm: React.FC = () => {
             <Col span={12}>
               <Form.Item
                 name="document_number_c"
-                label="Número de Documento del candidato"
+                label="Número de documento"
                 rules={[{ required: true, message: 'Por favor ingrese el número de documento del candidato' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Número de Documento del candidato" />
+                <Input prefix={<IdcardOutlined />} placeholder="Número de Documento del candidato" />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
                 name="type_document_c"
-                label="Tipo de Documento del candidato"
+                label="Tipo de documento"
                 rules={[{ required: true, message: 'Por favor seleccione el tipo de documento del candidato' }]}
               >
                 <Select placeholder="Seleccione el tipo de documento">
                   <Option value="0">Cédula</Option>
-                  <Option value="1">Pasaporte</Option>
+                  <Option value="1">Tarjeta de identidad</Option>
+                  <Option value="2">Pasaporte</Option>
+                  <Option value="3">Otro</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -195,9 +210,19 @@ const MultiStepForm: React.FC = () => {
               <Form.Item
                 name="years"
                 label="Edad"
-                rules={[{ required: true, message: 'Por favor ingrese la edad' }]}
+                rules={[
+                  { required: true, message: 'Por favor ingrese la edad' },
+                  {
+                    validator: (_, value) => {
+                      if (value && parseInt(value) > 40) {
+                        return Promise.reject('El estrato no puede ser mayor a 40');
+                      }
+                      return Promise.resolve();
+                    },
+                  },
+                ]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Edad" />
+                <Input prefix={<RobotOutlined />} type="number" placeholder="Edad" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -206,7 +231,7 @@ const MultiStepForm: React.FC = () => {
                 label="Estrato"
                 rules={[{ required: true, message: 'Por favor ingrese estrato' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Estrato" />
+                <Input prefix={<MoneyCollectOutlined />} placeholder="Estrato" />
               </Form.Item>
             </Col>
           </Row>
@@ -215,13 +240,23 @@ const MultiStepForm: React.FC = () => {
               <Form.Item
                 name="date_of_bird"
                 label="Fecha de Nacimiento"
-                rules={[{ required: true, message: 'Por favor ingrese la fecha de nacimiento' }]}
+                rules={[
+                  { required: true, message: 'Por favor ingrese la fecha de nacimiento' },
+                  {
+                    validator: (_, value) => {
+                      const currentDate = moment();
+                      if (value && moment(value).isAfter(currentDate)) {
+                        return Promise.reject('La fecha de nacimiento no puede ser posterior a la fecha actual');
+                      }
+                      return Promise.resolve();
+                    },
+                  },
+                ]}
               >
                 <DatePicker format={dateFormat} />
               </Form.Item>
 
             </Col>
-
             <Col span={12}>
               <Form.Item
                 name="degrees"
@@ -251,7 +286,7 @@ const MultiStepForm: React.FC = () => {
                 label="Direccion"
                 rules={[{ required: true, message: 'Por favor ingrese la direccion' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Dirrecion" />
+                <Input prefix={<SendOutlined />} placeholder="Dirrecion" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -260,7 +295,7 @@ const MultiStepForm: React.FC = () => {
                 label="Ciudad"
                 rules={[{ required: true, message: 'Por favor ingrese la ciudad' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Ciudad" />
+                <Input prefix={<GlobalOutlined />} placeholder="Ciudad" />
               </Form.Item>
             </Col>
           </Row>
@@ -271,7 +306,7 @@ const MultiStepForm: React.FC = () => {
                 label="Barrio"
                 rules={[{ required: true, message: 'Por favor ingrese barrio' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Barrio" />
+                <Input prefix={<CarOutlined />} placeholder="Barrio" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -280,11 +315,24 @@ const MultiStepForm: React.FC = () => {
                 label="Año Electivo"
                 rules={[{ required: true, message: 'Por favor ingrese el año electivo' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Año electivo" />
+                <Input prefix={<SkinOutlined />} placeholder="Año electivo" />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="gender"
+                label="Genero"
+                rules={[{ required: true, message: 'Por favor ingrese el genero' }]}
+              >
+                <Select placeholder="Seleccione el genero">
+                  <Option value="0">Masculino</Option>
+                  <Option value="1">Femenino</Option>
+                  <Option value="2">Otro</Option>
+                </Select>
+              </Form.Item>
+            </Col>
             <Col span={12}>
               <Form.Item
                 name="avatar_c"
@@ -298,12 +346,14 @@ const MultiStepForm: React.FC = () => {
                 </Upload>
               </Form.Item>
             </Col>
+          </Row>
+          <Row gutter={16}>
             <Col span={12}>
               <Form.Item
                 name="avatar_url_c"
                 label="Url avatar"
               >
-                <Input prefix={<UserOutlined />} placeholder="avatar url" />
+                <Input prefix={<PictureOutlined />} placeholder="avatar url" />
               </Form.Item>
             </Col>
           </Row>
@@ -352,7 +402,9 @@ const MultiStepForm: React.FC = () => {
               >
                 <Select placeholder="Seleccione el tipo de documento">
                   <Option value="0">Cédula</Option>
-                  <Option value="1">Pasaporte</Option>
+                  <Option value="1">Tarjeta de identidad</Option>
+                  <Option value="2">Pasaporte</Option>
+                  <Option value="3">Otro</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -361,10 +413,10 @@ const MultiStepForm: React.FC = () => {
             <Col span={12}>
               <Form.Item
                 name="document_number_t_one"
-                label="Número de Documento tutor"
+                label="Número de documento tutor"
                 rules={[{ required: true, message: 'Por favor ingrese el número de documento tutor' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Número de Documento tutor" />
+                <Input prefix={<IdcardOutlined />} placeholder="Número de documento tutor" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -396,7 +448,7 @@ const MultiStepForm: React.FC = () => {
                 name="avatar_url_t_one"
                 label="Url avatar"
               >
-                <Input prefix={<UserOutlined />} placeholder="avatar url" />
+                <Input prefix={<PictureOutlined />} placeholder="avatar url" />
               </Form.Item>
             </Col>
           </Row>
@@ -407,7 +459,7 @@ const MultiStepForm: React.FC = () => {
                 label="Telefono tutor uno"
                 rules={[{ required: true, message: 'Por favor ingrese el numero de celular del tutor 1' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Telefono Tutor uno" />
+                <Input prefix={<PhoneOutlined />} placeholder="Telefono tutor uno" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -416,7 +468,7 @@ const MultiStepForm: React.FC = () => {
                 label="Profesion"
                 rules={[{ required: true, message: 'Por favor ingrese la profesion del tutor 1' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Profesion tutor uno" />
+                <Input prefix={<TrophyOutlined />} placeholder="Profesion tutor uno" />
               </Form.Item>
             </Col>
           </Row>
@@ -427,7 +479,7 @@ const MultiStepForm: React.FC = () => {
                 label="Lugar de trabajo"
                 rules={[{ required: true, message: 'Por favor ingrese el lugar de trabajo' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Lugar de trabajo" />
+                <Input prefix={<TagsOutlined />} placeholder="Lugar de trabajo" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -436,7 +488,7 @@ const MultiStepForm: React.FC = () => {
                 label="Numero de trabajo"
                 rules={[{ required: true, message: 'Por favor ingrese el numero de trabajo' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Numero de trabajo" />
+                <Input prefix={<PhoneOutlined />} placeholder="Numero de trabajo" />
               </Form.Item>
             </Col>
           </Row>
@@ -447,7 +499,7 @@ const MultiStepForm: React.FC = () => {
                 label="Ingreso mensual"
                 rules={[{ required: true, message: 'Por favor el valor solicitado' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Ingresos mesuales" />
+                <Input prefix={<DollarOutlined />} placeholder="Ingresos mesuales" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -529,7 +581,9 @@ const MultiStepForm: React.FC = () => {
               >
                 <Select placeholder="Seleccione el tipo de documento">
                   <Option value="0">Cédula</Option>
-                  <Option value="1">Pasaporte</Option>
+                  <Option value="1">Tarjeta de identidad</Option>
+                  <Option value="2">Pasaporte</Option>
+                  <Option value="3">Otro</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -538,10 +592,10 @@ const MultiStepForm: React.FC = () => {
             <Col span={12}>
               <Form.Item
                 name="document_number_t_two"
-                label="Número de Documento tutor"
+                label="Número de documento tutor"
                 rules={[{ required: true, message: 'Por favor ingrese el número de documento tutor' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Número de Documento tutor" />
+                <Input prefix={<IdcardOutlined  />} placeholder="Número de Documento tutor" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -573,7 +627,7 @@ const MultiStepForm: React.FC = () => {
                 name="avatar_url_t_two"
                 label="Url avatar"
               >
-                <Input prefix={<UserOutlined />} placeholder="avatar url" />
+                <Input prefix={<PictureOutlined />} placeholder="avatar url" />
               </Form.Item>
             </Col>
           </Row>
@@ -584,7 +638,7 @@ const MultiStepForm: React.FC = () => {
                 label="Telefono tutor dos"
                 rules={[{ required: true, message: 'Por favor ingrese el numero de celular del tutor dos' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Telefono Tutor dos" />
+                <Input prefix={<PhoneOutlined />} placeholder="Telefono Tutor dos" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -593,7 +647,7 @@ const MultiStepForm: React.FC = () => {
                 label="Profesion"
                 rules={[{ required: true, message: 'Por favor ingrese la profesion del tutor dos' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Profesion tutor dos" />
+                <Input prefix={<TrophyOutlined />} placeholder="Profesion tutor dos" />
               </Form.Item>
             </Col>
           </Row>
@@ -604,7 +658,7 @@ const MultiStepForm: React.FC = () => {
                 label="Lugar de trabajo"
                 rules={[{ required: true, message: 'Por favor ingrese el lugar de trabajo' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Lugar de trabajo" />
+                <Input prefix={<TagsOutlined />} placeholder="Lugar de trabajo" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -613,7 +667,7 @@ const MultiStepForm: React.FC = () => {
                 label="Numero de trabajo"
                 rules={[{ required: true, message: 'Por favor ingrese el numero de trabajo' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Numero de trabajo" />
+                <Input prefix={<PhoneOutlined />} placeholder="Numero de trabajo" />
               </Form.Item>
             </Col>
           </Row>
@@ -624,7 +678,7 @@ const MultiStepForm: React.FC = () => {
                 label="Ingreso mensual"
                 rules={[{ required: true, message: 'Por favor el valor solicitado' }]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Ingresos mesuales" />
+                <Input prefix={<DollarOutlined />} placeholder="Ingresos mesuales" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -690,7 +744,7 @@ const MultiStepForm: React.FC = () => {
                 rules={[{ required: true, message: 'Por favor ingrese el lugar de nacimiento' }]}
 
               >
-                <Input prefix={<UserOutlined />} placeholder="Lugar de nacimiento" />
+                <Input prefix={<BankOutlined />} placeholder="Lugar de nacimiento" />
               </Form.Item>
             </Col>
           </Row>

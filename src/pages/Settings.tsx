@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ContentHeader } from '@components';
 import './styles/settings.css';
-import { detailSettings, SettingsInterface } from '@app/services/settings-personal/settings-provider';
+import { detailSettings, SettingsInterface, updatedSettings } from '@app/services/settings-personal/settings-provider';
+import { toast } from 'react-toastify';
 
 interface EditSettingsModalProps {
     settings: SettingsInterface | null;
@@ -18,6 +19,7 @@ const SettingsModal: React.FC<EditSettingsModalProps> = ({ onSave }) => {
     const [typeUser, setTypeUser] = useState<number | undefined>(undefined);
     const [documentNumber, setDocumentNumber] = useState<number | undefined>(undefined);
     const [typeIdentification, setTypeIdentification] = useState<number | undefined>(undefined);
+    const [userId, setUserId] = useState<number | undefined>(undefined); // Agregado para manejar el ID del usuario
 
     const [loading, setLoading] = useState(true);
 
@@ -39,6 +41,8 @@ const SettingsModal: React.FC<EditSettingsModalProps> = ({ onSave }) => {
                     setTypeUser(userData.type_user);
                     setDocumentNumber(userData.document_number);
                     setTypeIdentification(userData.type_document);
+                    setUserId(userData.id); // Asigna el ID del usuario
+
                 } catch (error) {
                     console.error('Error fetching user data', error);
                 } finally {
@@ -52,16 +56,22 @@ const SettingsModal: React.FC<EditSettingsModalProps> = ({ onSave }) => {
         fetchData();
     }, []);
 
-    const handleSave = () => {
-        const updatedData: Partial<Omit<SettingsInterface, 'id'>> = {};
-        if (name !== undefined) updatedData.first_name = name;
-        if (lastName !== undefined) updatedData.last_name = lastName;
-        if (email !== undefined) updatedData.email = email;
-        if (username !== undefined) updatedData.username = username;
-        if (typeUser !== undefined) updatedData.type_user = typeUser;
-        if (documentNumber !== undefined) updatedData.document_number = documentNumber;
-        if (typeIdentification !== undefined) updatedData.type_document = typeIdentification;
-        onSave(updatedData);
+    const handleSave = async () => {
+        if (userId !== undefined) {
+            const updatedData = {
+                first_name: name,
+                last_name: lastName
+            };
+
+            try {
+                await updatedSettings(userId, updatedData); // Call endpoint to updated
+                toast.success('Actualizacion con exito!');
+                onSave(updatedData);
+            } catch (error) {
+                toast.error('Actualizacion Fallida');
+                console.error("Error updating settings", error);
+            }
+        }
     };
 
     if (loading) {
