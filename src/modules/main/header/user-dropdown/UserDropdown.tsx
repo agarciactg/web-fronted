@@ -84,13 +84,7 @@ const UserDropdown = () => {
         <UserBody>
           <div className="row">
             <div className="col-4 text-center">
-              <Link to="/">{t('header.user.followers')}</Link>
-            </div>
-            <div className="col-4 text-center">
-              <Link to="/">{t('header.user.sales')}</Link>
-            </div>
-            <div className="col-4 text-center">
-              <Link to="/">{t('header.user.friends')}</Link>
+              <Link to="/">Dashboard</Link>
             </div>
           </div>
         </UserBody>
@@ -100,14 +94,14 @@ const UserDropdown = () => {
             className="btn btn-default btn-flat"
             onClick={navigateToProfile}
           >
-            {t('header.user.profile')}
+            Perfil
           </button>
           <button
             type="button"
             className="btn btn-default btn-flat float-right"
             onClick={logOut}
           >
-            {t('login.button.signOut')}
+            Cerrar sesion
           </button>
         </UserFooter>
       </div>
