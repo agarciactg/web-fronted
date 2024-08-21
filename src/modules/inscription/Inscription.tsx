@@ -90,7 +90,13 @@ const MultiStepForm: React.FC = () => {
     });
 
     // Llama a la función para enviar la inscripción
-    IncriptionCreated(formData);
+    const result: any = await IncriptionCreated(formData);
+
+    // limpiar formulario siempre y cuando la creacion halla tenido exito
+    if (result.code == 200) {
+      form.resetFields();
+    }
+
   };
 
   // props - de cargue
@@ -187,7 +193,7 @@ const MultiStepForm: React.FC = () => {
                 label="Número de documento"
                 rules={[{ required: true, message: 'Por favor ingrese el número de documento del candidato' }]}
               >
-                <Input prefix={<IdcardOutlined />} placeholder="Número de Documento del candidato" />
+                <Input prefix={<IdcardOutlined />} type="number" placeholder="Número de Documento del candidato" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -315,7 +321,7 @@ const MultiStepForm: React.FC = () => {
                 label="Año Electivo"
                 rules={[{ required: true, message: 'Por favor ingrese el año electivo' }]}
               >
-                <Input prefix={<SkinOutlined />} placeholder="Año electivo" />
+                <Input prefix={<SkinOutlined />} type="number" placeholder="Año electivo" />
               </Form.Item>
             </Col>
           </Row>
@@ -416,7 +422,7 @@ const MultiStepForm: React.FC = () => {
                 label="Número de documento tutor"
                 rules={[{ required: true, message: 'Por favor ingrese el número de documento tutor' }]}
               >
-                <Input prefix={<IdcardOutlined />} placeholder="Número de documento tutor" />
+                <Input prefix={<IdcardOutlined />} type="number" placeholder="Número de documento tutor" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -499,7 +505,7 @@ const MultiStepForm: React.FC = () => {
                 label="Ingreso mensual"
                 rules={[{ required: true, message: 'Por favor el valor solicitado' }]}
               >
-                <Input prefix={<DollarOutlined />} placeholder="Ingresos mesuales" />
+                <Input prefix={<DollarOutlined />} type="number" placeholder="Ingresos mesuales" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -595,7 +601,7 @@ const MultiStepForm: React.FC = () => {
                 label="Número de documento tutor"
                 rules={[{ required: true, message: 'Por favor ingrese el número de documento tutor' }]}
               >
-                <Input prefix={<IdcardOutlined  />} placeholder="Número de Documento tutor" />
+                <Input prefix={<IdcardOutlined  />} type="number" placeholder="Número de documento tutor" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -678,7 +684,7 @@ const MultiStepForm: React.FC = () => {
                 label="Ingreso mensual"
                 rules={[{ required: true, message: 'Por favor el valor solicitado' }]}
               >
-                <Input prefix={<DollarOutlined />} placeholder="Ingresos mesuales" />
+                <Input prefix={<DollarOutlined />} type="number" placeholder="Ingresos mesuales" />
               </Form.Item>
             </Col>
             <Col span={12}>

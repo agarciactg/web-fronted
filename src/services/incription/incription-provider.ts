@@ -18,7 +18,8 @@ export const IncriptionCreated = async (formData: any): Promise<any> => {
     );
 
     toast.success("Registro de inscripción exitoso!");
-    return response.data;
+    return {"response":response.data, "code": response.status};
+
   } catch (error: any) {
     console.error("Error: ", error);
     toast.error("Error: "+error.response.data.message);
