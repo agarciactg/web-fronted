@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import { Form, Input, Button, DatePicker, Select, Col, Row, Typography, Upload, Steps, Checkbox, UploadProps } from 'antd';
+import { Form, Input, Button, DatePicker, Select, Col, Row, Typography, Upload, Steps, Checkbox, UploadProps, message } from 'antd';
 import {
   UserOutlined,
   MailOutlined,
@@ -107,7 +107,7 @@ const MultiStepForm: React.FC = () => {
     }));
   };
 
-  const propsTemplate = (key: string) => ({
+  const propsTemplate = (key: string, allowedTypes: string[], maxSizeMB: number) => ({
     onRemove: (file: any) => {
       setFormValues((prevValues: any) => {
         const newValues = { ...prevValues };
@@ -116,9 +116,24 @@ const MultiStepForm: React.FC = () => {
       });
     },
     beforeUpload: (file: any) => {
+      // validated type file and size
+      const isAllowedType = allowedTypes.includes(file.type);
+      const isLessThanMaxSize = file.size / 1024 / 1024 < maxSizeMB;
+
+      if (!isAllowedType) {
+        message.error(`Solo se permiten archivos de tipo: ${allowedTypes.join(', ')}`);
+        return Upload.LIST_IGNORE;
+      }
+
+      if (!isLessThanMaxSize) {
+        message.error(`El archivo debe ser menor a ${maxSizeMB} MB.`);
+        return Upload.LIST_IGNORE;
+      }
+
       handleFileChange(key, file);
       return false;
     },
+    accept: allowedTypes.map(type => type === 'image/jpeg' ? '.jpeg,.jpg' : `.${type.split('/')[1]}`).join(','),
   });
 
 
@@ -347,7 +362,7 @@ const MultiStepForm: React.FC = () => {
                 getValueFromEvent={(e: any) => Array.isArray(e) ? e : e && e.fileList}
                 rules={[{ required: true, message: 'Por favor suba una foto del candidato' }]}
               >
-                <Upload {...propsTemplate('avatar_c')}>
+                <Upload {...propsTemplate('avatar_c', ['image/png', 'image/jpeg'], 2)}>
                   <Button icon={<UploadOutlined />}>Subir Foto</Button>
                 </Upload>
               </Form.Item>
@@ -433,7 +448,7 @@ const MultiStepForm: React.FC = () => {
                 getValueFromEvent={(e: any) => Array.isArray(e) ? e : e && e.fileList}
                 rules={[{ required: true, message: 'Por favor suba una foto tutor' }]}
               >
-                <Upload {...propsTemplate('avatar_t_one')}>
+                <Upload {...propsTemplate('avatar_t_one', ['image/png', 'image/jpeg'], 2)}>
                   <Button icon={<UploadOutlined />}>Subir Foto</Button>
                 </Upload>
               </Form.Item>
@@ -612,7 +627,7 @@ const MultiStepForm: React.FC = () => {
                 getValueFromEvent={(e: any) => Array.isArray(e) ? e : e && e.fileList}
                 rules={[{ required: true, message: 'Por favor suba una foto tutor' }]}
               >
-                <Upload {...propsTemplate('avatar_t_two')}>
+                <Upload {...propsTemplate('avatar_t_two', ['image/png', 'image/jpeg'], 2)}>
                   <Button icon={<UploadOutlined />}>Subir Foto</Button>
                 </Upload>
               </Form.Item>
@@ -763,7 +778,7 @@ const MultiStepForm: React.FC = () => {
                 getValueFromEvent={(e: any) => Array.isArray(e) ? e : e && e.fileList}
                 rules={[{ required: true, message: 'Por favor suba documento' }]}
               >
-                <Upload {...propsTemplate('civil_registration')}>
+                <Upload {...propsTemplate('civil_registration',  ['application/pdf', 'image/png', 'image/jpeg'], 5)}>
                   <Button icon={<UploadOutlined />}>Subir documento</Button>
                 </Upload>
               </Form.Item>
@@ -776,7 +791,7 @@ const MultiStepForm: React.FC = () => {
                 getValueFromEvent={(e: any) => Array.isArray(e) ? e : e && e.fileList}
                 rules={[{ required: true, message: 'Por favor suba documento' }]}
               >
-                <Upload {...propsTemplate('vaccination_card')}>
+                <Upload {...propsTemplate('vaccination_card', ['application/pdf', 'image/png', 'image/jpeg'], 5)}>
                   <Button icon={<UploadOutlined />}>Subir documento</Button>
                 </Upload>
               </Form.Item>
@@ -791,7 +806,7 @@ const MultiStepForm: React.FC = () => {
                 getValueFromEvent={(e: any) => Array.isArray(e) ? e : e && e.fileList}
                 rules={[{ required: true, message: 'Por favor subir documento' }]}
               >
-                <Upload {...propsTemplate('identity_card')}>
+                <Upload {...propsTemplate('identity_card',  ['application/pdf', 'image/png', 'image/jpeg'], 5)}>
                   <Button icon={<UploadOutlined />}>Subir documento</Button>
                 </Upload>
               </Form.Item>
@@ -804,7 +819,7 @@ const MultiStepForm: React.FC = () => {
                 getValueFromEvent={(e: any) => Array.isArray(e) ? e : e && e.fileList}
                 rules={[{ required: true, message: 'Por favor subir documento' }]}
               >
-                <Upload {...propsTemplate('last_newsletter')}>
+                <Upload {...propsTemplate('last_newsletter',  ['application/pdf', 'image/png', 'image/jpeg'], 5)}>
                   <Button icon={<UploadOutlined />}>Subir documento</Button>
                 </Upload>
               </Form.Item>
@@ -819,7 +834,7 @@ const MultiStepForm: React.FC = () => {
                 getValueFromEvent={(e: any) => Array.isArray(e) ? e : e && e.fileList}
                 rules={[{ required: true, message: 'Por favor subir documento' }]}
               >
-                <Upload {...propsTemplate('work_record')}>
+                <Upload {...propsTemplate('work_record',  ['application/pdf', 'image/png', 'image/jpeg'], 5)}>
                   <Button icon={<UploadOutlined />}>Subir documento</Button>
                 </Upload>
               </Form.Item>
@@ -832,8 +847,8 @@ const MultiStepForm: React.FC = () => {
                 getValueFromEvent={(e: any) => Array.isArray(e) ? e : e && e.fileList}
                 rules={[{ required: true, message: 'Por favor subir documento' }]}
               >
-                <Upload {...propsTemplate('photo_license')}>
-                  <Button icon={<UploadOutlined />}>Subir documento</Button>
+                <Upload {...propsTemplate('photo_license',  ['image/png', 'image/jpeg'], 5)}>
+                  <Button icon={<UploadOutlined />}>Subir Foto</Button>
                 </Upload>
               </Form.Item>
             </Col>
@@ -847,7 +862,7 @@ const MultiStepForm: React.FC = () => {
                 getValueFromEvent={(e: any) => Array.isArray(e) ? e : e && e.fileList}
                 rules={[{ required: true, message: 'Por favor subir documento' }]}
               >
-                <Upload {...propsTemplate('registration_receipt')}>
+                <Upload {...propsTemplate('registration_receipt', ['application/pdf', 'image/png', 'image/jpeg'], 5)}>
                   <Button icon={<UploadOutlined />}>Subir documento</Button>
                 </Upload>
               </Form.Item>

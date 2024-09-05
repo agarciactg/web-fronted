@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { fetchTeacher, fetchTypeUsers } from '@app/services/users/users-provider';
 import { fetchAcademicGroups, Teacher } from '@app/services/academic-groups/academic-groups';
 import { AcademicGroup, EnrollmentInterface, Student, Subject } from '@app/services/enrollment/enrollment-provider';
 import { fetchSubjects } from '@app/services/subjects/subjects-provider';
+import { fetchStudentActive } from '@app/services/student/student-provider';
 
 
 interface AddEnrollmentModalProps {
@@ -44,11 +44,11 @@ const AddEnrollmentModal: React.FC<AddEnrollmentModalProps> = ({ onClose, onSave
         loadSubjects();
     }, []);
 
-    // list of subjects
+    // list of users
     useEffect(() => {
         const loadTypeUsers = async () => {
             try {
-                const response = await fetchTypeUsers({type_users: "Estudiante"});
+                const response = await fetchStudentActive();
                 setAllStudent(response.data);
             } catch (error) {
                 console.error('Error loading type users:', error);
@@ -122,8 +122,8 @@ const AddEnrollmentModal: React.FC<AddEnrollmentModalProps> = ({ onClose, onSave
                             >
                                 <option value="">----- Seleccione un Estudiante -----</option>
                                 {allStudent.map((student) => (
-                                    <option key={student.id} value={student.id}>
-                                        {student.first_name} {student.last_name}
+                                    <option key={student.candiate.user.id} value={student.candiate.user.id}>
+                                        {student.candiate.user.first_name} {student.candiate.user.last_name}
                                     </option>
                                 ))}
                             </select>
