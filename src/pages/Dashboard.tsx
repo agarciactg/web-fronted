@@ -5,6 +5,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { ContentHeader } from '@components';
 import './styles/dashboard.css'
 import { NavLink } from 'react-router-dom';
+import { fetchGetCountModel } from '@app/services/dashboard/dashboard';
 
 
 // const UserModule: React.FC = () => (
@@ -75,14 +76,14 @@ import { NavLink } from 'react-router-dom';
 //   </div>
 // );
 
-const UserModule: React.FC = () => (
+const UserModule: React.FC<any> = ({total_users}) => (
   <div className="col-lg-3 col-6">
     <div className="small-box" id='small-box-id'>
       <div className="inner">
         <div className="container-icon">
           <div className="container-body" id="icon-title">
             <p className="title-card">Total usuarios</p>
-            <h2 className="text-card">150</h2>
+            <h2 className="text-card">{total_users}</h2>
           </div>
           <div className="container-body" id="icon-div">
             <FontAwesomeIcon icon={faUserFriends} size="2x" color="#8A85FF" />  
@@ -97,14 +98,14 @@ const UserModule: React.FC = () => (
 )
 
 
-const EnrollmentModule: React.FC = () => (
+const EnrollmentModule: React.FC<any> = ({total_enrollment}) => (
   <div className="col-lg-3 col-6">
     <div className="small-box" id='small-box-id'>
       <div className="inner">
         <div className="container-icon">
           <div className="container-body" id="icon-title">
             <p className="title-card">Total matriculas</p>
-            <h2 className="text-card">90</h2>
+            <h2 className="text-card">{total_enrollment}</h2>
           </div>
           <div className="container-body" id="icon-div-enrollment">
             <FontAwesomeIcon icon={faFileSignature} size="2x" color="#FFC107" />  
@@ -119,14 +120,14 @@ const EnrollmentModule: React.FC = () => (
 );
 
 
-const AcademicGroupsModule: React.FC = () => (
+const AcademicGroupsModule: React.FC<any> = ({total_academic}) => (
   <div className="col-lg-3 col-6">
     <div className="small-box" id='small-box-id'>
       <div className="inner">
         <div className="container-icon">
           <div className="container-body" id="icon-title">
             <p className="title-card">Total academicos</p>
-            <h2 className="text-card">8</h2>
+            <h2 className="text-card">{total_academic}</h2>
           </div>
           <div className="container-body" id="icon-div-academic">
             <FontAwesomeIcon icon={faPeopleGroup} size="2x" color="#4ED6A7" />  
@@ -140,14 +141,14 @@ const AcademicGroupsModule: React.FC = () => (
   </div>
 );
 
-const SubjectsModule: React.FC = () => (
+const SubjectsModule: React.FC<any> = ({total_subjects}) => (
   <div className="col-lg-3 col-6">
     <div className="small-box" id='small-box-id'>
       <div className="inner">
         <div className="container-icon">
           <div className="container-body" id="icon-title">
             <p className="title-card">Total asignaturas</p>
-            <h2 className="text-card">89</h2>
+            <h2 className="text-card">{total_subjects}</h2>
           </div>
           <div className="container-body" id="icon-div-subjects">
             <FontAwesomeIcon icon={faBookBookmark} size="2x" color="#FF906E" />  
@@ -164,6 +165,7 @@ const SubjectsModule: React.FC = () => (
 
 const Dashboard: React.FC = () => {
   const [userType, setUserType] = useState<string | null>(null);
+  const [allTotalModels, setAllTotalModels] = useState<any>(null);
 
   useEffect(() => {
     const type = localStorage.getItem('type_user');
@@ -173,31 +175,40 @@ const Dashboard: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    loadCountModel();
+  }, []);
+
+  const loadCountModel = async () => {
+    const response = await fetchGetCountModel();
+    setAllTotalModels(response.data);
+  }
+
   const renderDashboarBoxes = (): JSX.Element => {
     switch (userType) {
       case "administrador":
         return (
           <>
-            <UserModule />
-            <SubjectsModule />
-            <AcademicGroupsModule />
-            <EnrollmentModule />
+            <UserModule total_users={allTotalModels?.all_users || 0} />
+            <SubjectsModule total_subjects={allTotalModels?.all_subjects || 0} />
+            <AcademicGroupsModule total_academic={allTotalModels?.all_academic || 0} />
+            <EnrollmentModule total_enrollment={allTotalModels?.all_enrollment || 0} />
           </>
         );
       case "estudiantes":
         return (
           <>
-            <UserModule />
-            <EnrollmentModule />
-            <AcademicGroupsModule />
+            <UserModule total_users={allTotalModels?.all_users || 0} />
+            <EnrollmentModule total_enrollment={allTotalModels?.all_enrollment || 0} />
+            <AcademicGroupsModule total_academic={allTotalModels?.all_academic || 0} />
           </>
         );
       default:
         return (
           <>
-            <EnrollmentModule />
-            <AcademicGroupsModule />
-            <SubjectsModule />
+            <EnrollmentModule total_enrollment={allTotalModels?.all_enrollment || 0} />
+            <AcademicGroupsModule total_academic={allTotalModels?.all_academic || 0} />
+            <SubjectsModule total_subjects={allTotalModels?.all_subjects || 0} />
           </>
         );
     }

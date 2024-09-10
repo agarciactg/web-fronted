@@ -44,7 +44,7 @@ const UserDropdown = () => {
   const navigateToProfile = (event: any) => {
     event.preventDefault();
     setDropdownOpen(false);
-    navigate('/profile');
+    navigate('/settings');
   };
 
   const typeUser = localStorage.getItem('type_user');
