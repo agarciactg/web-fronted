@@ -6,6 +6,11 @@ import { useEffect, useState } from "react";
 import EditEnrollmentModal from "./modal/EditEnrolModal";
 import './ModalStyles.css'
 import AddEnrollmentModal from "./modal/AddEnrollmentModal";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import jsPDF from 'jspdf';  // Importamos jsPDF
+import html2canvas from 'html2canvas'; // Importamos html2canvas
+
 
 const Enrollment = () => {
     // states
@@ -78,6 +83,30 @@ const Enrollment = () => {
         }
     }
 
+    // fuction to export document pdf
+    const exportPDF = () => {
+        console.log("Export PDF function called"); // Log para depurar si la función se está ejecutando
+        const input = document.getElementById('enrollment-table');
+        if (input) {
+            html2canvas(input, { scale: 2 })
+                .then((canvas) => {
+                    const imgData = canvas.toDataURL("image/png");
+                    const pdf = new jsPDF({
+                        orientation: 'landscape',
+                        unit: 'px',
+                        format: [canvas.width, canvas.height]
+                    });
+                    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+                    pdf.save("enrollment-lista.pdf");
+                })
+                .catch((error) => {
+                    console.error("Error generating PDF:", error);
+                });
+        } else {
+            console.error("No se encontró el elemento con id 'enrollment-table'");
+        }
+    };
+
     return (
         <div>
             {/* Contenedor Principal que podría volverse borroso */}
@@ -91,12 +120,15 @@ const Enrollment = () => {
                                     <h3 className="card-title">Lista de Matriculas</h3>
                                 </div>
                                 <div className="ml-auto">
+                                    <button className="btn btn-danger" style={{ marginRight: '7px' }} onClick={exportPDF}>
+                                        <FontAwesomeIcon icon={faFilePdf} />
+                                    </button>
                                     <button className="btn btn-success" onClick={handleAddNew}>
                                         Agregar
                                     </button>
                                 </div>
                             </div>
-                            <div className="card-body">
+                            <div className="card-body" id="enrollment-table">
                                 <table className="table table-bordered">
                                     <thead>
                                         <tr>

@@ -3,6 +3,7 @@ import { ContentHeader } from '@components';
 import './styles/settings.css';
 import { detailSettings, SettingsInterface, updatedSettings } from '@app/services/settings-personal/settings-provider';
 import { toast } from 'react-toastify';
+import { baseUrlMedia } from '@app/utils/apiConfig';
 
 interface EditSettingsModalProps {
     settings: SettingsInterface | null;
@@ -20,6 +21,7 @@ const SettingsModal: React.FC<EditSettingsModalProps> = ({ onSave }) => {
     const [documentNumber, setDocumentNumber] = useState<number | undefined>(undefined);
     const [typeIdentification, setTypeIdentification] = useState<number | undefined>(undefined);
     const [userId, setUserId] = useState<number | undefined>(undefined); // Agregado para manejar el ID del usuario
+    const [avatar, setAvatar] = useState<any>(undefined);
 
     const [loading, setLoading] = useState(true);
 
@@ -41,7 +43,8 @@ const SettingsModal: React.FC<EditSettingsModalProps> = ({ onSave }) => {
                     setTypeUser(userData.type_user);
                     setDocumentNumber(userData.document_number);
                     setTypeIdentification(userData.type_document);
-                    setUserId(userData.id); // Asigna el ID del usuario
+                    setUserId(userData.id);
+                    setAvatar(userData.avatar);
 
                 } catch (error) {
                     console.error('Error fetching user data', error);
@@ -78,6 +81,8 @@ const SettingsModal: React.FC<EditSettingsModalProps> = ({ onSave }) => {
         return <div>Cargando...</div>;
     }
 
+    const avatarURL = avatar ? `${baseUrlMedia}${avatar}` : "/img/default-profile.png";
+
     return (
         <div className="settings-container">
             <ContentHeader title="Configuracion General" />
@@ -86,7 +91,7 @@ const SettingsModal: React.FC<EditSettingsModalProps> = ({ onSave }) => {
                     <div className="card user-config-card" id="card-user-config-card">
                         <div className="card-body">
                             <div className="user-info">
-                                <img src="/img/default-profile.png" alt="User Logo" className="user-logo" />
+                                <img src={avatarURL} alt="User Logo" className="user-logo" />
                                 <a href="#" className="upload-logo">Upload Logo</a>
                                 <div className="user-details">
                                     <div className="form-group-setting">

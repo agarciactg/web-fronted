@@ -6,6 +6,11 @@ import { headers, baseUrl } from '@app/utils/apiConfig';
 import EditUserModal from './modal/EditUserModal';
 import './ModalStyles.css';
 import AddUsersModal from './modal/AddUsersModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import jsPDF from 'jspdf';  // Importamos jsPDF
+import html2canvas from 'html2canvas'; // Importamos html2canvas
+
 
 const UsersList = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -81,6 +86,30 @@ const UsersList = () => {
     }
   };
 
+  // fuction to export document pdf
+  const exportPDF = () => {
+    console.log("Export PDF function called"); // Log para depurar si la función se está ejecutando
+    const input = document.getElementById('user-table');
+    if (input) {
+      html2canvas(input, { scale: 2 })
+        .then((canvas) => {
+          const imgData = canvas.toDataURL("image/png");
+          const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'px',
+            format: [canvas.width, canvas.height]
+          });
+          pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+          pdf.save("usuarios-lista.pdf");
+        })
+        .catch((error) => {
+          console.error("Error generating PDF:", error);
+        });
+    } else {
+      console.error("No se encontró el elemento con id 'user-table'");
+    }
+  };
+
   return (
     <div>
       {/* Contenedor Principal que podría volverse borroso */}
@@ -94,12 +123,15 @@ const UsersList = () => {
                   <h3 className="card-title">Lista de Usuarios</h3>
                 </div>
                 <div className="ml-auto">
+                  <button className="btn btn-danger" style={{ marginRight: '7px' }} onClick={exportPDF}>
+                    <FontAwesomeIcon icon={faFilePdf} />
+                  </button>
                   <button className="btn btn-success" onClick={handleAddNew}>
                     Agregar
                   </button>
                 </div>
               </div>
-              <div className="card-body">
+              <div className="card-body" id="user-table">
                 <table className="table table-bordered">
                   <thead>
                     <tr>

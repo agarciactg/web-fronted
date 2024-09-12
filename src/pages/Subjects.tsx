@@ -6,6 +6,10 @@ import './ModalStyles.css';
 import { createSubjects, deleteSubjects, detailSubjects, fetchSubjects, SubjectsInterface, SubjectsResponse, updateSubjects } from '@app/services/subjects/subjects-provider';
 import EditSubjectModal from './modal/EditSubjectsModal';
 import AddSubjectModal from './modal/AddSubjectModal';
+import jsPDF from 'jspdf';  // Importamos jsPDF
+import html2canvas from 'html2canvas'; // Importamos html2canvas
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 const SubjectsList: React.FC = () => {
     const [subjects, setSubjects] = useState<SubjectsInterface[]>([]);
@@ -77,6 +81,30 @@ const SubjectsList: React.FC = () => {
         }
     };
 
+    // fuction to export document pdf
+    const exportPDF = () => {
+        console.log("Export PDF function called"); // Log para depurar si la función se está ejecutando
+        const input = document.getElementById("subject-table");
+        if (input) {
+            html2canvas(input, { scale: 2 })
+                .then((canvas) => {
+                    const imgData = canvas.toDataURL("image/png");
+                    const pdf = new jsPDF({
+                        orientation: 'landscape',
+                        unit: 'px',
+                        format: [canvas.width, canvas.height]
+                    });
+                    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+                    pdf.save("subjects-lista.pdf");
+                })
+                .catch((error) => {
+                    console.error("Error generating PDF:", error);
+                });
+        } else {
+            console.error("No se encontró el elemento con id 'subject-table'");
+        }
+    };
+
     return (
         <div>
             <div className={(isEditing || isAdding) ? "blur-background" : ""}>
@@ -89,12 +117,15 @@ const SubjectsList: React.FC = () => {
                                     <h3 className="card-title">Lista de Asignaturas</h3>
                                 </div>
                                 <div className="ml-auto">
+                                    <button className="btn btn-danger" style={{ marginRight: '7px' }} onClick={exportPDF}>
+                                        <FontAwesomeIcon icon={faFilePdf} />
+                                    </button>
                                     <button className="btn btn-success" onClick={handleAddNew}>
                                         Agregar
                                     </button>
                                 </div>
                             </div>
-                            <div className="card-body">
+                            <div className="card-body" id="subject-table">
                                 <table className="table table-bordered">
                                     <thead>
                                         <tr>
